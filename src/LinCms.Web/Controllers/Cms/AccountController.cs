@@ -36,8 +36,8 @@ public class AccountController : ApiControllerBase
     private readonly IAuditBaseRepository<BlackRecord> _blackRecordRepository;
     private readonly CaptchaOption _loginCaptchaOption;
     private readonly ICaptchaManager _captchaManager;
-    private readonly RedisClient _redisClient;
-    public AccountController(ITokenService tokenService, IConfiguration configuration, IAccountService accountService, IAuditBaseRepository<BlackRecord> blackRecordRepository, IUserService userService, IOptionsMonitor<CaptchaOption> loginCaptchaOption, ICaptchaManager captchaManager, RedisClient redisClient)
+    private readonly RedisClient? _redisClient;
+    public AccountController(ITokenService tokenService, IConfiguration configuration, IAccountService accountService, IAuditBaseRepository<BlackRecord> blackRecordRepository, IUserService userService, IOptionsMonitor<CaptchaOption> loginCaptchaOption, ICaptchaManager captchaManager, RedisClient? redisClient)
     {
         _tokenService = tokenService;
         _accountService = accountService;

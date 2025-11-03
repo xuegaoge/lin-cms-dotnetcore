@@ -843,6 +843,11 @@
             异步事务方法拦截
             </summary>
         </member>
+        <member name="P:LinCms.Middleware.AopCacheAsyncIntercept.IsRedisAvailable">
+            <summary>
+            检查Redis是否可用
+            </summary>
+        </member>
         <member name="M:LinCms.Middleware.AopCacheAsyncIntercept.TryBegin(Castle.DynamicProxy.IInvocation)">
             <summary>
             当只配置特性标签，但未指定任意属性值时，默认根据UnitOfWorkDefaultOptions
@@ -1009,6 +1014,11 @@
             </summary>
             <param name="properties"></param>
             <returns></returns>
+        </member>
+        <member name="T:Program">
+            <summary>
+            Auto-generated public partial Program class for top-level statement apps.
+            </summary>
         </member>
     </members>
 </doc>

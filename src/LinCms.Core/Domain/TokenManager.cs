@@ -31,8 +31,13 @@ public class TokenManager(IJwtService jsonWebTokenService, ILogger<TokenManager>
 
         string token = jsonWebTokenService.Encode(claims);
 
+        // 只更新需要修改的字段，避免 FreeSql 内部错误
         user.AddRefreshToken();
-        await userRepository.UpdateAsync(user);
+        await userRepository.UpdateDiy.Set(u => new LinUser
+        {
+            RefreshToken = user.RefreshToken,
+            LastLoginTime = user.LastLoginTime
+        }).Where(u => u.Id == user.Id).ExecuteAffrowsAsync();
 
         return new UserAccessToken(token, user.RefreshToken, 24 * 60 * 60, "Bearer", 24 * 60 * 60 * 30);
     }

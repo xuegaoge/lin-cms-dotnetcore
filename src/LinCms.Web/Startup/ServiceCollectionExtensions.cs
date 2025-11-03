@@ -165,6 +165,9 @@ public static class ServiceCollectionExtensions
                 .Build()
                 .SetDbContextOptions(opt => opt.EnableCascadeSave = true); //联级保存功能开启（默认为关闭）
 
+            // 注意：FreeSql 的 ManyToMany 关系需要正确的中间表配置
+            // 如果遇到关系配置错误，请检查 LinUserGroup.cs 中的导航属性配置
+
             //以解决首次运行时，app_serilog未初始化的问题：必须保证数据库创建
             #region Serilog日志
             Log.Logger = new LoggerConfiguration().ReadFrom.Configuration(c).Enrich.FromLogContext().CreateLogger();
@@ -258,8 +261,16 @@ ElapsedMilliseconds:{3}ms
     #region 初始化 Redis配置
 
     public static IServiceCollection AddRedisClient(this IServiceCollection services, IConfiguration c)
-    {  
-        var redisClient=new RedisClient(c.GetConnectionString("Redis"));
+    {
+        var redisConnectionString = c.GetConnectionString("Redis");
+        if (string.IsNullOrWhiteSpace(redisConnectionString))
+        {
+            // 如果没有配置Redis，使用内存缓存
+            services.AddSingleton<IDistributedCache, MemoryDistributedCache>();
+            return services;
+        }
+
+        var redisClient = new RedisClient(redisConnectionString);
         redisClient.Serialize = JsonConvert.SerializeObject;
         redisClient.Deserialize = JsonConvert.DeserializeObject;
         redisClient.Notice += (s, e) => Log.Information(e.Log);

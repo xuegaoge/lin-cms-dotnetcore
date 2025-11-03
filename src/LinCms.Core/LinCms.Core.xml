@@ -907,6 +907,66 @@
             用户关注的标签
             </summary>
         </member>
+        <member name="T:LinCms.Entities.Downloads.VideoDownloadTask">
+            <summary>
+            视频下载任务（MVP）
+            </summary>
+        </member>
+        <member name="P:LinCms.Entities.Downloads.VideoDownloadTask.Url">
+            <summary>
+            原始视频URL
+            </summary>
+        </member>
+        <member name="P:LinCms.Entities.Downloads.VideoDownloadTask.Status">
+            <summary>
+            任务状态：Queued|Running|Success|Failed
+            </summary>
+        </member>
+        <member name="P:LinCms.Entities.Downloads.VideoDownloadTask.ProgressPercent">
+            <summary>
+            进度百分比（0-100）
+            </summary>
+        </member>
+        <member name="P:LinCms.Entities.Downloads.VideoDownloadTask.Speed">
+            <summary>
+            下载速度（文本，如 1.2 MB/s）
+            </summary>
+        </member>
+        <member name="P:LinCms.Entities.Downloads.VideoDownloadTask.Eta">
+            <summary>
+            预计剩余时间（文本，如 00:01:23）
+            </summary>
+        </member>
+        <member name="P:LinCms.Entities.Downloads.VideoDownloadTask.FilePath">
+            <summary>
+            生成的文件相对路径（相对下载根目录）
+            </summary>
+        </member>
+        <member name="P:LinCms.Entities.Downloads.VideoDownloadTask.FileSize">
+            <summary>
+            文件大小（字节）
+            </summary>
+        </member>
+        <member name="P:LinCms.Entities.Downloads.VideoDownloadTask.Ext">
+            <summary>
+            扩展名（mp4/flv等）
+            </summary>
+        </member>
+        <member name="P:LinCms.Entities.Downloads.VideoDownloadTask.ErrorCode">
+            <summary>
+            错误码（可选）
+            </summary>
+        </member>
+        <member name="P:LinCms.Entities.Downloads.VideoDownloadTask.ErrorMsg">
+            <summary>
+            错误信息（可选）
+            </summary>
+        </member>
+        <member name="P:LinCms.Entities.Downloads.VideoDownloadTask.UserId">
+            <summary>
+            归属用户Id（发起者）
+            </summary>
+        </member>
         <member name="T:LinCms.Entities.LinFile">
             <summary>
             文件

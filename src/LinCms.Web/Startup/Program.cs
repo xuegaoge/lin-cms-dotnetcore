@@ -16,10 +16,12 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.FileProviders;
 using Serilog;
 using Serilog.Events;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Reflection;
 
@@ -42,7 +44,8 @@ builder.Host
         containerBuilder.RegisterModule(new FreeKitModule(currentAssemblies));
         List<Type> interceptorServiceTypes = new List<Type>()
         {
-            typeof(AopCacheIntercept)
+            // 暂时注释掉拦截器，开发环境无需AOP缓存
+            // typeof(AopCacheIntercept)
         };
         containerBuilder.RegisterModule(new UnitOfWorkModule(currentAssemblies, interceptorServiceTypes));
         containerBuilder.RegisterModule(new AutofacModule());
@@ -68,6 +71,14 @@ services
     ;
 
 services.AddHealthChecks();//健康检查
+
+// 命名 HttpClient -> sidecar FastAPI
+services.AddHttpClient("YtDlpSidecar", client =>
+{
+    var apiBase = c["YtDlp:ApiBase"] ?? "http://127.0.0.1:5103";
+    client.BaseAddress = new Uri(apiBase);
+    client.Timeout = TimeSpan.FromSeconds(60);
+});
 
 var app = builder.Build();
 
@@ -176,5 +187,16 @@ app.UseRouting()
             ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse
         });
     });
+
+// 暴露下载目录为静态文件 /downloads 前缀
+var downloadRoot = c["Download:Root"] ?? "/www/lincms/downloads";
+if (Directory.Exists(downloadRoot))
+{
+    app.UseStaticFiles(new StaticFileOptions
+    {
+        FileProvider = new PhysicalFileProvider(downloadRoot),
+        RequestPath = "/downloads"
+    });
+}
 
 app.Run();

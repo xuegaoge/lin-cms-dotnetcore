@@ -29,8 +29,9 @@ public static class ServiceProviderExtensions
         }
         catch (Exception ex)
         {
+            // 当 Redis 不可用时，记录错误但不影响应用启动
             var logger = scope.ServiceProvider.GetRequiredService<ILogger<Program>>();
-            logger.LogError(ex, "An error occurred.");
+            logger.LogWarning(ex, "Redis 不可用，跳过 IP 限流初始化");
         }
     }
     #endregion
