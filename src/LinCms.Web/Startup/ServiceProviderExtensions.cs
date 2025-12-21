@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 using AspNetCoreRateLimit;
 using IGeekFan.FreeKit.Extras.FreeSql;
@@ -30,7 +31,7 @@ public static class ServiceProviderExtensions
         catch (Exception ex)
         {
             var logger = scope.ServiceProvider.GetRequiredService<ILogger<Program>>();
-            logger.LogError(ex, "An error occurred.");
+            logger.LogError(ex, "Redis 不可用，跳过 IP 限流初始化");
         }
     }
     #endregion
@@ -52,12 +53,16 @@ public static class ServiceProviderExtensions
         //在运行时直接生成表结构,初始化数据
         try
         {
+            var allEntityTypes = ReflexHelper.GetTypesByTableAttribute(typeof(LinUser));
+
             fsql.CodeFirst.SeedData();
-            fsql.CodeFirst.SyncStructure(ReflexHelper.GetTypesByTableAttribute(typeof(LinUser)));
+            fsql.CodeFirst.SyncStructure(allEntityTypes);
+
+            Log.Information($"数据库结构同步完成，同步了 {allEntityTypes.Length} 个实体类型");
         }
         catch (Exception e)
         {
-            Log.Error($"Message:{e.Message},StackTrace:{e.StackTrace}");
+            Log.Error($"数据库结构同步失败: {e.Message}, StackTrace: {e.StackTrace}");
         }
 
         return serviceProvider;

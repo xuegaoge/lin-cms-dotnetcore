@@ -1,4 +1,5 @@
 ﻿using Autofac;
+using FreeRedis;
 using LinCms.Data;
 using LinCms.Data.Authorization;
 using Microsoft.AspNetCore.Authorization;

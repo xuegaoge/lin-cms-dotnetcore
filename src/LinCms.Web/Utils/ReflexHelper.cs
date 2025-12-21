@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using FreeSql.DataAnnotations;
 using LinCms.Aop.Filter;
 using LinCms.Data;
 using LinCms.Entities;
@@ -212,5 +213,65 @@ public class ReflexHelper
         }
 
         return list;
+    }
+
+    /// <summary>
+    /// 获取所有带有 Table 特性标记的实体类型
+    /// </summary>
+    /// <param name="baseType">基础类型，用于筛选相关的实体</param>
+    /// <returns>实体类型列表</returns>
+    public static Type[] GetTypesByTableAttribute(Type baseType)
+    {
+        var types = new List<Type>();
+
+        // 获取相关程序集中的所有类型
+        var assemblies = new[]
+        {
+            typeof(LinUser).Assembly,
+            typeof(ReflexHelper).Assembly,
+            Assembly.Load("LinCms.Plugins")
+        };
+
+        foreach (var assembly in assemblies)
+        {
+            var allTypes = assembly.GetTypes()
+                .Where(t => t.IsClass && !t.IsAbstract);
+
+            foreach (var type in allTypes)
+            {
+                // 检查是否标记了 Table 特性
+                var tableAttr = type.GetCustomAttribute<TableAttribute>();
+                if (tableAttr != null)
+            {
+                // 如果指定了 baseType，则只返回相关类型；否则返回所有类型
+                if (baseType != null)
+                {
+                    // 检查是否有继承关系或关联
+                    if (type.BaseType == baseType ||
+                        type.BaseType?.BaseType == baseType ||
+                        type.GetInterfaces().Contains(baseType) ||
+                        baseType.IsAssignableFrom(type))
+                    {
+                        types.Add(type);
+                    }
+
+                }
+                else
+                {
+                    types.Add(type);
+                }
+                }
+            }
+        }
+
+        return types.ToArray();
+    }
+
+    /// <summary>
+    /// 获取所有实体类型（不限制基础类型）
+    /// </summary>
+    public static Type[] GetAllEntityTypes()
+    {
+        return GetTypesByTableAttribute(null);
     }
 }
