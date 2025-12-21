@@ -3,6 +3,7 @@ using LinCms.Cms.Account;
 using LinCms.Cms.Files;
 using LinCms.Cms.Users;
 using LinCms.Entities;
+using Microsoft.Extensions.Hosting;
 using LinCms.Middleware;
 
 namespace LinCms.Startup.Configuration;
@@ -23,6 +24,7 @@ public class ServiceModule : Autofac.Module
 
         builder.RegisterType<GithubOAuth2Serivice>().Named<IOAuth2Service>(LinUserIdentity.GitHub).InstancePerLifetimeScope();
         builder.RegisterType<GiteeOAuth2Service>().Named<IOAuth2Service>(LinUserIdentity.Gitee).InstancePerLifetimeScope();
+
 
     }
 }

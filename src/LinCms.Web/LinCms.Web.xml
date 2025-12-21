@@ -967,6 +967,18 @@
             </summary>
             <returns></returns>
         </member>
+        <member name="M:LinCms.Utils.ReflexHelper.GetTypesByTableAttribute(System.Type)">
+            <summary>
+            获取所有带有 Table 特性标记的实体类型
+            </summary>
+            <param name="baseType">基础类型，用于筛选相关的实体</param>
+            <returns>实体类型列表</returns>
+        </member>
+        <member name="M:LinCms.Utils.ReflexHelper.GetAllEntityTypes">
+            <summary>
+            获取所有实体类型（不限制基础类型）
+            </summary>
+        </member>
         <member name="M:LinCms.Utils.StopWords.ReplaceStopWords(System.String)">
             <summary>
             替换所有敏感词为 *
