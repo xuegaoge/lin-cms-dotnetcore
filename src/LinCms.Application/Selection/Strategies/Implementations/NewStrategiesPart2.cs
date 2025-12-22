@@ -58,10 +58,10 @@ namespace LinCms.Application.Selection.Strategies.Implementations
 
             result.SubResults = new List<SubResult>
             {
-                new SubResult { Name = "MSI市场规模指数", Score = msi, Weight = 0.25m },
-                new SubResult { Name = "CII竞争强度指数", Score = cii, Weight = 0.25m },
-                new SubResult { Name = "毛利率", Score = margin, Weight = 0.25m },
-                new SubResult { Name = "蓝海指数", Score = blueOcean, Weight = 0.25m }
+                new SubResult { Name = "MSI市场规模指数", Score = msi, Weight = 0.25m, WeightedScore = msi * 0.25m },
+                new SubResult { Name = "CII竞争强度指数", Score = cii, Weight = 0.25m, WeightedScore = cii * 0.25m },
+                new SubResult { Name = "毛利率", Score = margin, Weight = 0.25m, WeightedScore = margin * 0.25m },
+                new SubResult { Name = "蓝海指数", Score = blueOcean, Weight = 0.25m, WeightedScore = blueOcean * 0.25m }
             };
 
             return result;

@@ -151,11 +151,25 @@ namespace LinCms.Application.Selection.Strategies
             else
             {
                 // 越高越好
-                for (int i = 0; i < thresholds.Length; i++)
+                // 假设 grades 长度通常比 thresholds 多 1 (例如等级有 5 个，阈值有 4 个)
+                // grades: [2, 4, 6, 8, 10]
+                // thresholds: [100, 200, 300, 400]
+                // val >= 400 (thresholds[3]) -> 10 (grades[4])
+                // val >= 300 (thresholds[2]) -> 8 (grades[3])
+                // ...
+                // val < 100 -> 2 (grades[0])
+
+                for (int i = thresholds.Length - 1; i >= 0; i--)
                 {
                     if (val >= thresholds[i])
                     {
-                        return grades[i];
+                        // 确保不越界
+                        int gradeIndex = i + 1;
+                        if (gradeIndex < grades.Length)
+                        {
+                            return grades[gradeIndex];
+                        }
+                        return grades.Last();
                     }
                 }
                 return grades[0];

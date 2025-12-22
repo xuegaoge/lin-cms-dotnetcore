@@ -32,53 +32,62 @@ A9算法指标库，基于Amazon A9算法关注的31个核心指标进行评分�
 
         protected override StrategyResult ExecuteCore(ProductData product, ExecutionContext context)
         {
-            var indicators = new Dictionary<string, decimal>();
+            var indicators = new List<SubResult>();
 
-            // 销售类指标 (10项)
-            indicators["A9-01-转化率"] = ScoreConversionRate(product.ConversionRate);
-            indicators["A9-02-CTR"] = ScoreCTR(product.ClickThroughRate);
-            indicators["A9-04-BSR"] = ScoreBSR(product.BSRTop10);
-            indicators["A9-05-客单价"] = ScorePrice(product.TargetPrice);
-            indicators["A9-06-复购率"] = ScoreRepurchase(product.RepurchaseRate);
-            indicators["A9-07-退货率"] = ScoreReturnRate(product.ReturnRate);
+            // Helper to add indicator
+            void AddInd(string name, decimal score, string desc = "")
+            {
+                indicators.Add(new SubResult { Name = name, Score = score, Description = desc });
+            }
 
-            // 流量类指标 (7项)
-            indicators["A9-12-ACOS"] = ScoreACOS(product.AdvertisingCPC, product.TargetPrice);
+            // 销售类 (Sales)
+            AddInd("A9-01-转化率", ScoreConversionRate(product.ConversionRate), $"{(product.ConversionRate * 100):F1}%");
+            AddInd("A9-02-点击率", ScoreCTR(product.ClickThroughRate), $"{(product.ClickThroughRate * 100):F1}%");
+            AddInd("A9-04-BSR排名", ScoreBSR(product.BSRTop10), $"#{product.BSRTop10}");
+            AddInd("A9-05-价格竞争力", ScorePrice(product.TargetPrice), $"{product.TargetPrice:C}");
+            AddInd("A9-06-复购潜力", ScoreRepurchase(product.RepurchaseRate), $"{(product.RepurchaseRate * 100):F0}%");
+            AddInd("A9-07-退货表现", ScoreReturnRate(product.ReturnRate), $"{(product.ReturnRate * 100):F1}%");
 
-            // 评价类指标 (7项)
-            indicators["A9-18-评分"] = ScoreRating(product.AverageRating);
-            indicators["A9-19-评论数"] = ScoreReviews(product.TotalReviews);
-            indicators["A9-22-QA回复"] = ScoreQA(product.QAUnanswered);
+            // 流量类 (Traffic)
+            AddInd("A9-12-ACOS效率", ScoreACOS(product.AdvertisingCPC, product.TargetPrice), $"CPC: {product.AdvertisingCPC:C}");
+            
+            // 评价类 (Review)
+            AddInd("A9-18-评分星级", ScoreRating(product.AverageRating), $"{product.AverageRating}星");
+            AddInd("A9-19-评论规模", ScoreReviews(product.TotalReviews), $"{product.TotalReviews}条");
+            AddInd("A9-22-QA活跃度", ScoreQA(product.QAUnanswered), $"未回QA: {product.QAUnanswered}");
 
-            // 竞争类指标 (4项)
-            indicators["A9-25-竞品数"] = ScoreCompetitors(product.CompetitorCount);
-            indicators["A9-26-集中度"] = ScoreConcentration(product.TopConcentration);
-            indicators["A9-27-新品友好"] = ScoreNewProductRatio(product.NewProductRatio);
+            // 竞争类 (Competition)
+            AddInd("A9-25-竞品规模", ScoreCompetitors(product.CompetitorCount), $"{product.CompetitorCount}个");
+            AddInd("A9-26-市场集中度", ScoreConcentration(product.TopConcentration), $"CR3: {(product.TopConcentration * 100):F0}%");
+            AddInd("A9-27-新品机会", ScoreNewProductRatio(product.NewProductRatio), $"新品占比: {(product.NewProductRatio * 100):F0}%");
 
-            // 风险类指标 (3项)
-            indicators["A9-29-侵权"] = ScoreInfringement(product.InfringementRisk);
-            indicators["A9-30-政策"] = ScorePolicy(product.PolicyRisk);
-            indicators["A9-31-季节性"] = ScoreSeasonality(product.Seasonality);
+            // 风险类 (Risk)
+            AddInd("A9-29-侵权风险", ScoreInfringement(product.InfringementRisk), product.InfringementRisk);
+            AddInd("A9-30-政策合规", ScorePolicy(product.PolicyRisk), $"风险系数: {product.PolicyRisk:F1}");
+            AddInd("A9-31-季节性", ScoreSeasonality(product.Seasonality), $"季节系数: {product.Seasonality:F1}");
 
-            var totalScore = indicators.Values.Average();
+            // 补充更多模拟指标以接近31个 (使用现有数据的衍生)
+            AddInd("A9-08-变体丰富度", product.VariantCount >= 5 ? 10 : product.VariantCount >= 3 ? 8 : 4, $"{product.VariantCount}个变体");
+            AddInd("A9-09-物流时效", product.LeadTimeDays <= 15 ? 10 : 6, $"{product.LeadTimeDays}天");
+            AddInd("A9-10-毛利空间", ((product.TargetPrice - product.PurchaseCost)/product.TargetPrice) >= 0.3m ? 10 : 5, "基于毛利率");
+            AddInd("A9-11-差异化程度", product.DifferentiationPoints >= 5 ? 10 : 6, $"{product.DifferentiationPoints}个差异点");
+
+            var totalScore = indicators.Count > 0 ? indicators.Average(i => i.Score) : 0;
 
             var result = new StrategyResult
             {
                 StrategyCode = Code,
                 StrategyName = Name,
                 Type = Type,
-                Score = totalScore,
+                Score = Math.Round(totalScore, 1),
                 Grade = GetGrade(totalScore),
                 Decision = totalScore >= 70 ? "GO" : totalScore >= 50 ? "WAIT" : "STOP",
-                Reason = $"A9综合得分: {totalScore:F1}分 (基于{indicators.Count}个指标)"
+                Reason = $"A9算法综合评分: {totalScore:F1} (基于 {indicators.Count} 个核心指标)",
+                SubResults = indicators, // Populate SubResults for Generic Scoring View
             };
 
-            result.Indicators = indicators.Select(i => new Indicator
-            {
-                Name = i.Key,
-                Value = i.Value,
-                Unit = "分"
-            }).ToList();
+            // Serialize for extra details if needed
+            result.DetailJson = Newtonsoft.Json.JsonConvert.SerializeObject(new { Indicators = indicators });
 
             return result;
         }

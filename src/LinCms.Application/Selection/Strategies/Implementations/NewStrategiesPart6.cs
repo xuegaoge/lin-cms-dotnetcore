@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Newtonsoft.Json.Linq;
 
 namespace LinCms.Application.Selection.Strategies.Implementations
 {
@@ -288,8 +289,40 @@ namespace LinCms.Application.Selection.Strategies.Implementations
             
             // S03(利润)结果作为财务分及其它分数的代理
             var execS03 = history.FirstOrDefault(e => e.StrategyCode == "S03");
-            decimal scoreROI = execS03?.Score ?? 60;
-            decimal scoreCycle = execS03?.Score ?? 60;
+            decimal scoreROI = 60;
+            decimal scoreCycle = 60;
+
+            if (execS03 != null)
+            {
+                // 默认使用总分作为回退
+                scoreROI = execS03.Score ?? 60;
+                scoreCycle = execS03.Score ?? 60;
+
+                // 尝试从 DetailJson 中提取更精细的指标
+                if (!string.IsNullOrEmpty(execS03.DetailJson))
+                {
+                    try
+                    {
+                        var detail = Newtonsoft.Json.Linq.JObject.Parse(execS03.DetailJson);
+                        var finance = detail["Finance"];
+                        if (finance != null)
+                        {
+                            var roi = finance["Roi"]?.Value<decimal>() ?? 0;
+                            var payback = finance["PaybackPeriod"]?.Value<int>() ?? 999;
+
+                            // 重新评分 (ROI > 30% Excellent, > 15% Good)
+                            scoreROI = roi >= 0.30m ? 100 : roi >= 0.15m ? 75 : roi > 0 ? 60 : 40;
+
+                            // 重新评分 (回本 < 6月 Excellent, < 12月 Good)
+                            scoreCycle = payback <= 6 ? 100 : payback <= 12 ? 75 : payback <= 18 ? 60 : 40;
+                        }
+                    }
+                    catch
+                    {
+                        // 解析失败，保持默认
+                    }
+                }
+            }
             
             // 如果历史数据不存在（例如首次运行），尝试使用一些ProductData字段进行修正
             if (history.Count == 0)

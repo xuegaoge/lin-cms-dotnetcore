@@ -121,6 +121,7 @@ namespace LinCms.Application.Selection.Models
         public decimal Weight { get; set; }
         public decimal WeightedScore { get; set; }
         public string Grade { get; set; }
+        public string Description { get; set; }
         public List<Indicator> Indicators { get; set; } = new List<Indicator>();
     }
 

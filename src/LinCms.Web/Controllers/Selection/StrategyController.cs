@@ -64,7 +64,7 @@ namespace LinCms.Web.Controllers.Selection
         /// 获取策略执行历史
         /// </summary>
         [HttpGet("products/{productId}/strategies")]
-        public async Task<IActionResult> GetExecutionHistory(long productId, [FromQuery] string strategyCode = null, [FromQuery] int page = 1, [FromQuery] int size = 20)
+        public async Task<IActionResult> GetExecutionHistory(long productId, [FromQuery] string strategyCode = null, [FromQuery] int page = 1, [FromQuery] int size = 50)
         {
             var history = await _strategyService.GetExecutionHistoryAsync(productId, strategyCode, page, size);
             return Ok(new { code = 200, data = history });

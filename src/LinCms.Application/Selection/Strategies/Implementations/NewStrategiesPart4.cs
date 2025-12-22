@@ -85,7 +85,8 @@ namespace LinCms.Application.Selection.Strategies.Implementations
             {
                 Name = d.Key,
                 Score = d.Value,
-                Weight = weights[d.Key]
+                Weight = weights[d.Key],
+                WeightedScore = d.Value * weights[d.Key]
             }).ToList();
 
             if (totalScore < 60)

@@ -147,7 +147,8 @@ namespace LinCms.Application.Selection.Strategies.Implementations
             {
                 Name = d.Key,
                 Score = d.Value,
-                Weight = weights[d.Key]
+                Weight = weights[d.Key],
+                WeightedScore = d.Value * weights[d.Key]
             }).ToList();
 
             return result;
@@ -277,7 +278,8 @@ namespace LinCms.Application.Selection.Strategies.Implementations
             {
                 Name = d.Key,
                 Score = d.Value,
-                Weight = 0.2m
+                Weight = 0.2m,
+                WeightedScore = d.Value * 0.2m
             }).ToList();
 
             return result;
