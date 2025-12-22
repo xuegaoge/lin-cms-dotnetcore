@@ -277,8 +277,10 @@ namespace LinCms.Application.Selection.Strategies.Implementations
             // 1. 获取依赖策略的最新执行结果
             var history = _fsql.Select<StrategyExecution>()
                 .Where(e => e.ProductId == product.Id && e.IsLatest == true)
-                .Where(e => new[] { "S02", "S03", "S04", "S05" }.Contains(e.StrategyCode))
+                .Where(e => e.StrategyCode == "S02" || e.StrategyCode == "S03" || e.StrategyCode == "S04" || e.StrategyCode == "S05")
                 .ToList();
+            
+            //Console.WriteLine($"[S21] Found dependencies: {history.Count}");
 
             decimal scoreS05 = history.FirstOrDefault(e => e.StrategyCode == "S05")?.Score ?? 60; // 11维度
             decimal scoreS02 = history.FirstOrDefault(e => e.StrategyCode == "S02")?.Score ?? 60; // 40题
@@ -316,17 +318,53 @@ namespace LinCms.Application.Selection.Strategies.Implementations
             else if (weightScore >= 55) { priority = "P3-低"; suggestion = "小额测试，观察表现"; allocation = "10%"; }
 
             // 回写优先级到产品主表
-            product.PriorityLevel = priority;
-            _fsql.Update<ProductData>(product.Id)
-                .Set(p => p.PriorityLevel, priority)
-                .ExecuteAffrows();
+            try 
+            {
+                product.PriorityLevel = priority;
+                // 使用 SetSource + UpdateColumns 方式更新，通常更稳定
+                _fsql.Update<ProductData>()
+                    .SetSource(product)
+                    .UpdateColumns(p => p.PriorityLevel)
+                    .ExecuteAffrows();
+            }
+            catch (Exception ex)
+            {
+                // 仅打印日志，不要阻断策略结果返回
+                Console.WriteLine($"[S21] Update PriorityLevel Failed: {ex.Message}");
+            }
 
+            // 构造 SubResults 列表
+            var subResults = new List<SubResult>
+            {
+                new SubResult { Name = "S05-维度评分", Score = scoreS05, Weight = 0.35m, WeightedScore = scoreS05 * 0.35m },
+                new SubResult { Name = "S02-40题自诊", Score = scoreS02, Weight = 0.25m, WeightedScore = scoreS02 * 0.25m },
+                new SubResult { Name = "S04-风险评级", Score = scoreRisk, Weight = 0.20m, WeightedScore = scoreRisk * 0.20m },
+                new SubResult { Name = "S03-投资回报", Score = scoreROI, Weight = 0.15m, WeightedScore = scoreROI * 0.15m },
+                new SubResult { Name = "S03-资金周期", Score = scoreCycle, Weight = 0.05m, WeightedScore = scoreCycle * 0.05m }
+            };
+
+            // 构造 Suggestions
+            var suggestions = new List<string> { suggestion };
+            if (priority == "P0-最高") suggestions.Add("建议投入最大资源进行推广");
+            else if (priority == "P3-低") suggestions.Add("建议重新评估或放弃");
+
+            var detailData = new 
+            {
+                SubResults = subResults,
+                Suggestions = suggestions,
+                Priority = priority,
+                Allocation = allocation
+            };
+            
             return new StrategyResult
             {
                 Score = weightScore,
                 Decision = weightScore >= 65 ? DecisionType.GO : DecisionType.WAIT,
                 Reason = $"综合评分{weightScore:F1} (P等级: {priority})。建议: {suggestion}。资源分配: {allocation}。",
-                Data = new { Priority = priority, Allocation = allocation }
+                Data = new { Priority = priority, Allocation = allocation },
+                SubResults = subResults,
+                Suggestions = suggestions,
+                DetailJson = Newtonsoft.Json.JsonConvert.SerializeObject(detailData)
             };
         }
     }

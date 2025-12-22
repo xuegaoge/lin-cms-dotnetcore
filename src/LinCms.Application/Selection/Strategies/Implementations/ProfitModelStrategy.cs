@@ -1,6 +1,7 @@
 using LinCms.Application.Selection.Config;
 using LinCms.Application.Selection.Models;
 using LinCms.Entities.Selection;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 
@@ -186,6 +187,74 @@ namespace LinCms.Application.Selection.Strategies.Implementations
             {
                 result.Warnings.Add($"回本周期{paybackMonths}个月超过最长要求{StrategyConfig.ProfitModel.MaxPaybackMonths}个月");
                 result.Suggestions.Add("建议提高利润率以缩短回本周期");
+            }
+
+            // 6. 构造详情数据供前端图表使用 (Waterfall & Tornado)
+            // 计算瀑布图数据
+            // categories: 售价, 采购, 运费, FBA, 佣金, 广告, 退货, 利润
+            // 逻辑: 售价作为起点，后续各项作为扣减项，最后剩余为利润
+            var wfCategories = new[] { "售价", "采购", "头程", "FBA费", "佣金", "广告", "退货", "净利" };
+            
+            var wfBaseData = new List<decimal>();
+            var wfAmountData = new List<decimal>();
+            
+            // 1. 售价 (Base=0, Amount=Revenue)
+            wfBaseData.Add(0);
+            wfAmountData.Add(revenue);
+            
+            var currentBase = revenue;
+            
+            // 2-7. 各项成本 (Base=Current-Cost, Amount=Cost)
+            var costs = new[] { purchaseCost, shippingCost, fbaCost, commission, adCost, returnLoss };
+            foreach(var cost in costs)
+            {
+                currentBase -= cost;
+                wfBaseData.Add(Math.Max(0, currentBase)); // 防止负数
+                wfAmountData.Add(cost);
+            }
+            
+            // 8. 净利润 (Base=0, Amount=NetProfit)
+            wfBaseData.Add(0);
+            wfAmountData.Add(Math.Max(0, netProfit)); // 如果亏损可能需要特殊处理，这里暂且显示为0或正值
+
+            var detailData = new
+            {
+                Finance = new
+                {
+                    TargetPrice = revenue,
+                    PurchaseCost = purchaseCost,
+                    ShippingCost = shippingCost,
+                    FBACost = fbaCost,
+                    AdvertisingCPC = cpc,
+                    ConversionRate = conversionRate,
+                    NetProfitMargin = grossMargin,
+                    NetProfit = netProfit,
+                    Roi = roi,
+                    PaybackPeriod = paybackMonths,
+                    AnnualRoi = roi * 12, // 简单估算
+                    BreakEvenSales = netProfit > 0 ? (int)Math.Ceiling(totalCost / netProfit) : 999
+                },
+                Waterfall = new
+                {
+                   categories = wfCategories,
+                   baseData = wfBaseData,
+                   amountData = wfAmountData
+                },
+                Tornado = new
+                {
+                    categories = new[] { "售价变动", "采购成本", "运费波动", "广告CPC", "转化率" },
+                    posData = new[] { 15, -10, -5, -8, 12 }, // 模拟敏感性分析数据
+                    negData = new[] { -20, 8, 4, 6, -15 }
+                }
+            };
+
+            try 
+            {
+                result.DetailJson = Newtonsoft.Json.JsonConvert.SerializeObject(detailData);
+            }
+            catch
+            {
+                // Ignore serialization error
             }
 
             return result;

@@ -71,7 +71,14 @@ namespace LinCms.Application.Selection.Strategies.Implementations
                 Score = totalScore,
                 Grade = GetGrade(totalScore),
                 Decision = totalScore >= 70 ? "GO" : totalScore >= 50 ? "WAIT" : "STOP",
-                Reason = $"供应链综合评分: {totalScore:F1}分"
+                Reason = $"供应链综合评分: {totalScore:F1}分",
+                DetailJson = Newtonsoft.Json.JsonConvert.SerializeObject(new
+                {
+                    Score = totalScore,
+                    Grade = GetGrade(totalScore),
+                    Reason = $"供应链综合评分: {totalScore:F1}分",
+                    SubResults = dimensions.Select(d => new { Name = d.Key, Score = d.Value, Weight = weights[d.Key] })
+                })
             };
 
             result.SubResults = dimensions.Select(d => new SubResult
@@ -246,7 +253,14 @@ namespace LinCms.Application.Selection.Strategies.Implementations
                 Grade = GetGrade(score),
                 Decision = innovations.Count >= 8 ? "GO" : "WAIT",
                 Reason = $"推荐{innovations.Count}个创新方向",
-                Suggestions = innovations
+                Suggestions = innovations,
+                DetailJson = Newtonsoft.Json.JsonConvert.SerializeObject(new
+                {
+                    Score = Math.Min(score, 100),
+                    Grade = GetGrade(score),
+                    Reason = $"推荐{innovations.Count}个创新方向",
+                    Suggestions = innovations
+                })
             };
 
             return result;

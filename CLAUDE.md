@@ -118,6 +118,58 @@ dotnet run --project src/LinCms.Web --launch-profile "LinCms.Web.Development"
 dotnet watch --project src/LinCms.Web
 ```
 
+### 演示数据初始化
+
+#### 产品演示数据生成（Python脚本）
+
+项目提供了Python脚本用于快速生成完整的产品演示数据,包含10条涵盖所有52个字段的真实产品数据。
+
+**脚本位置**: `../seed_demo_products.py`
+
+**使用方法**:
+```bash
+# 1. 安装依赖
+pip install requests
+
+# 2. 确保后端服务已启动（热重载）
+优先调试开发期间使用
+dotnet watch run --project src/LinCms.Web/LinCms.Web.csproj
+部署后使用
+dotnet run --project src/LinCms.Web
+
+# 3. 运行脚本（在项目根目录的上一级）
+cd ..
+python seed_demo_products.py
+```
+
+**功能说明**:
+- ✅ 自动清空现有产品数据
+- ✅ 创建10条完整的演示产品(ID: 21-30)
+- ✅ 包含中文商品名(混合少量英文)
+- ✅ 涵盖不同市场阶段: 蓝海、新兴、稳定、饱和、红海
+- ✅ 不同优先级: P1(3个)、P2(4个)、P3(1个)、P4(2个)
+- ✅ 不同决策建议: GO(4个)、WAIT(3个)、STOP(3个)
+
+**数据特点**:
+- **完整性**: 包含基础信息、市场数据、成本财务、供应链、风险合规、产品属性、竞争分析、差异化等所有52个字段
+- **多样性**: 涵盖不同价格区间($12.99-$79.99)、不同竞争强度(65-920个竞品)
+- **真实性**: 合理的市场数据关联、符合实际的成本结构
+
+**产品示例**:
+1. 高端降噪无线蓝牙耳机 - P1优先级,GO决策,蓝海机会
+2. 环保TPE瑜伽垫 - P2优先级,WAIT决策,中等潜力
+3. Smart Pet Feeder 智能宠物自动喂食器 - P1优先级,GO决策,高增长
+4. 护眼LED台灯 - P3优先级,STOP决策,饱和市场
+5. Portable Bluetooth Speaker 便携式防水蓝牙音箱 - P4优先级,STOP决策,红海竞争
+
+详细说明请查看: `../产品演示数据说明.md`
+
+**注意事项**:
+- ⚠️ 脚本会**清空所有现有产品**,请谨慎使用
+- 如需保留现有数据,请先备份或修改脚本
+- 可以修改脚本中的产品数据来自定义演示内容
+- 脚本使用snake_case字段命名以匹配后端序列化配置
+
 ### Docker 运行
 ```bash
 # 构建镜像

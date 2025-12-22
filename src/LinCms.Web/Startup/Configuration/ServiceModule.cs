@@ -5,6 +5,7 @@ using LinCms.Cms.Users;
 using LinCms.Entities;
 using Microsoft.Extensions.Hosting;
 using LinCms.Middleware;
+using LinCms.Application.Selection.Strategies;
 
 namespace LinCms.Startup.Configuration;
 
@@ -25,6 +26,17 @@ public class ServiceModule : Autofac.Module
         builder.RegisterType<GithubOAuth2Serivice>().Named<IOAuth2Service>(LinUserIdentity.GitHub).InstancePerLifetimeScope();
         builder.RegisterType<GiteeOAuth2Service>().Named<IOAuth2Service>(LinUserIdentity.Gitee).InstancePerLifetimeScope();
 
+
+
+        // 注册策略注册表
+        builder.RegisterType<StrategyRegistry>().InstancePerLifetimeScope();
+
+        // 注册所有策略实现
+        var appAssembly = typeof(StrategyRegistry).Assembly;
+        builder.RegisterAssemblyTypes(appAssembly)
+               .Where(t => typeof(ISelectionStrategy).IsAssignableFrom(t) && !t.IsAbstract && t.IsClass)
+               .AsImplementedInterfaces()
+               .InstancePerLifetimeScope();
 
     }
 }

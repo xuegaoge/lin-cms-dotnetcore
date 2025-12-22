@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Newtonsoft.Json;
 
 namespace LinCms.Application.Contracts.Selection
 {
@@ -81,11 +82,13 @@ namespace LinCms.Application.Contracts.Selection
         public string Calculation { get; set; }
     }
 
+
     /// <summary>
     /// 执行策略请求DTO
     /// </summary>
     public class ExecuteStrategyDto
     {
+        [JsonProperty("product_id")] // Support snake_case from frontend/backend config
         public long ProductId { get; set; }
     }
 

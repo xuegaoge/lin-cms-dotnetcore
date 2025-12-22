@@ -271,7 +271,15 @@ namespace LinCms.Application.Selection.Strategies.Implementations
                 Score = survivalRate * 100,
                 Grade = GetGrade(survivalRate * 100),
                 Decision = decision,
-                Reason = $"压力测试通过率: {survivalRate:P0} ({passCount}/8场景通过)"
+                Reason = $"压力测试通过率: {survivalRate:P0} ({passCount}/8场景通过)",
+                DetailJson = Newtonsoft.Json.JsonConvert.SerializeObject(new
+                {
+                    Score = survivalRate * 100,
+                    Grade = GetGrade(survivalRate * 100),
+                    Decision = decision,
+                    Reason = $"压力测试通过率: {survivalRate:P0} ({passCount}/8场景通过)",
+                    Indicators = results.Select(r => new { Name = r.scenario_name, Value = r.net_profit, Status = r.result })
+                })
             };
 
             // 添加详细结果

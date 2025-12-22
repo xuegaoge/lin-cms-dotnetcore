@@ -65,6 +65,8 @@ namespace LinCms.Application.Selection.Services
 
             var result = strategy.Execute(product, context);
 
+            //Console.WriteLine($"[StrategyExecution] Strategy: {code}, StrategyResult.DetailJson: {result.DetailJson?.Substring(0, Math.Min(result.DetailJson?.Length ?? 0, 100))}");
+
             var execution = new StrategyExecution
             {
                 ProductId = productId,
@@ -77,7 +79,10 @@ namespace LinCms.Application.Selection.Services
                 Reason = result.Reason,
                 ExecutedAt = DateTime.Now,
                 ExecutionTimeMs = (int)result.ExecutionTimeMs,
-                DetailJson = System.Text.Json.JsonSerializer.Serialize(result),
+                // Prefer specific detail JSON if available, otherwise fallback to Data object, otherwise full result
+                DetailJson = !string.IsNullOrEmpty(result.DetailJson) ? result.DetailJson : 
+                             (result.Data != null ? System.Text.Json.JsonSerializer.Serialize(result.Data) : 
+                             System.Text.Json.JsonSerializer.Serialize(result)),
                 IsLatest = true
             };
 
