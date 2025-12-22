@@ -60,8 +60,15 @@ namespace LinCms.Web.Controllers.Selection
         [HttpPut("profile/{id}")]
         public async Task<IActionResult> UpdateProfile(long id, [FromBody] CreateEnterpriseProfileDto dto)
         {
-            // TODO: 实现更新逻辑
-            return Ok(new { code = 200, message = "更新功能待实现" });
+            try
+            {
+                var profile = await _enterpriseService.UpdateProfileAsync(id, dto);
+                return Ok(new { code = 200, message = "更新成功", data = profile });
+            }
+            catch (System.Exception ex)
+            {
+                return BadRequest(new { code = 400, message = ex.Message });
+            }
         }
 
         /// <summary>

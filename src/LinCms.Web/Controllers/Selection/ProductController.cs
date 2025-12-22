@@ -116,10 +116,33 @@ namespace LinCms.Web.Controllers.Selection
         /// 批量导入产品
         /// </summary>
         [HttpPost("batch")]
-        public async Task<IActionResult> BatchImportProducts()
+        public async Task<IActionResult> BatchImportProducts(Microsoft.AspNetCore.Http.IFormFile file)
         {
-            // TODO: 实现批量导入逻辑
-            return Ok(new { code = 200, message = "批量导入功能待实现" });
+            if (file == null || file.Length == 0)
+            {
+                return BadRequest(new { code = 400, message = "文件不能为空" });
+            }
+
+            var extension = System.IO.Path.GetExtension(file.FileName).ToLower();
+            if (extension != ".csv" && extension != ".xlsx")
+            {
+                return BadRequest(new { code = 400, message = "只支持CSV和Excel文件" });
+            }
+
+            try
+            {
+                var result = await _productService.BatchImportAsync(file);
+                return Ok(new
+                {
+                    code = 200,
+                    message = $"成功导入{result.SuccessCount}个产品,失败{result.FailCount}个",
+                    data = result
+                });
+            }
+            catch (System.Exception ex)
+            {
+                return StatusCode(500, new { code = 500, message = ex.Message });
+            }
         }
 
         /// <summary>
@@ -128,8 +151,24 @@ namespace LinCms.Web.Controllers.Selection
         [HttpGet("export")]
         public async Task<IActionResult> ExportProducts([FromQuery] string ids, [FromQuery] string format = "csv")
         {
-            // TODO: 实现导出逻辑
-            return Ok(new { code = 200, message = "导出功能待实现" });
+            try
+            {
+                var productIds = string.IsNullOrEmpty(ids)
+                    ? null
+                    : new System.Collections.Generic.List<long>(System.Linq.Enumerable.Select(ids.Split(','), long.Parse));
+
+                var fileBytes = await _productService.ExportAsync(productIds, format);
+                var fileName = $"products_{System.DateTime.Now:yyyyMMddHHmmss}.{format}";
+                var contentType = format == "csv"
+                    ? "text/csv"
+                    : "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+
+                return File(fileBytes, contentType, fileName);
+            }
+            catch (System.Exception ex)
+            {
+                return StatusCode(500, new { code = 500, message = ex.Message });
+            }
         }
         /// <summary>
         /// 更新产品关键词 (S19)

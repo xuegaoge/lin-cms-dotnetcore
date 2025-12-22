@@ -8,6 +8,7 @@ namespace LinCms.Entities.Selection
     /// 产品数据主表 - 核心表，包含52个字段
     /// </summary>
     [Table(Name = "selection_product_data")]
+    [Index("idx_status_priority_created", "Status, PriorityLevel, CreateTime")]
     public class ProductData : FullAuditEntity<long, long>
     {
         // ========================================

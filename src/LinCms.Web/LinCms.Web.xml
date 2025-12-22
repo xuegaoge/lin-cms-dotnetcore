@@ -1068,7 +1068,7 @@
             批量删除产品
             </summary>
         </member>
-        <member name="M:LinCms.Web.Controllers.Selection.ProductController.BatchImportProducts">
+        <member name="M:LinCms.Web.Controllers.Selection.ProductController.BatchImportProducts(Microsoft.AspNetCore.Http.IFormFile)">
             <summary>
             批量导入产品
             </summary>

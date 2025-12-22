@@ -7,6 +7,7 @@ namespace LinCms.Entities.Selection
     /// 策略执行记录表 - 存储每次策略执行的结果
     /// </summary>
     [Table(Name = "selection_strategy_execution")]
+    [Index("idx_product_latest", "ProductId, IsLatest, ExecutedAt")]
     public class StrategyExecution
     {
         /// <summary>

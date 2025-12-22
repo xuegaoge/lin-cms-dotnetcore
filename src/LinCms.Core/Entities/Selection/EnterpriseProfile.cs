@@ -8,6 +8,7 @@ namespace LinCms.Entities.Selection
     /// 企业定位评估表 - S11策略使用
     /// </summary>
     [Table(Name = "selection_enterprise_profile")]
+    [Index("idx_org_current", "OrganizationId, IsCurrent")]
     public class EnterpriseProfile : FullAuditEntity<long, long>
     {
         /// <summary>

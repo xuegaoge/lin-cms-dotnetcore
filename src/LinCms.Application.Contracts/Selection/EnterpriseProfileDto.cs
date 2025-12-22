@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace LinCms.Application.Contracts.Selection
 {
@@ -39,13 +40,37 @@ namespace LinCms.Application.Contracts.Selection
     public class CreateEnterpriseProfileDto
     {
         public long OrganizationId { get; set; }
+
+        [Required]
+        [Range(0, 100)]
         public decimal FundingCapacity { get; set; }
+
+        [Required]
+        [Range(0, 100)]
         public decimal TeamExperience { get; set; }
+
+        [Required]
+        [Range(0, 100)]
         public decimal SupplyChainDepth { get; set; }
+
+        [Required]
+        [Range(0, 100)]
         public decimal OperationCapability { get; set; }
+
+        [Required]
+        [Range(0, 100)]
         public decimal RiskTolerance { get; set; }
+
+        [Required]
+        [Range(0, 100)]
         public decimal MarketInsight { get; set; }
+
+        [Required]
+        [Range(0, 100)]
         public decimal TechCapability { get; set; }
+
+        [Required]
+        [Range(0, 100)]
         public decimal BrandAwareness { get; set; }
 
         public Dictionary<string, decimal> WeightConfig { get; set; }

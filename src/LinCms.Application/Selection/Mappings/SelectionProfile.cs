@@ -23,10 +23,14 @@ namespace LinCms.Application.Selection.Mappings
 
             // EnterpriseProfile映射
             CreateMap<EnterpriseProfile, EnterpriseProfileDto>()
-                .ForMember(dest => dest.WeightConfig, opt => opt.Ignore())
+                .ForMember(dest => dest.WeightConfig, opt => opt.MapFrom(src => 
+                    string.IsNullOrEmpty(src.WeightConfig) ? new Dictionary<string, decimal>() : 
+                    Newtonsoft.Json.JsonConvert.DeserializeObject<Dictionary<string, decimal>>(src.WeightConfig)))
                 .ForMember(dest => dest.Recommendations, opt => opt.Ignore());
             
-            CreateMap<CreateEnterpriseProfileDto, EnterpriseProfile>();
+            CreateMap<CreateEnterpriseProfileDto, EnterpriseProfile>()
+                .ForMember(dest => dest.WeightConfig, opt => opt.MapFrom(src => 
+                    src.WeightConfig == null ? null : Newtonsoft.Json.JsonConvert.SerializeObject(src.WeightConfig)));
 
             // GlobalConfig映射
             CreateMap<GlobalConfig, GlobalConfigDto>();
