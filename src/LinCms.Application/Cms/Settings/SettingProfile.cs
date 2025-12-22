@@ -1,4 +1,4 @@
-﻿using AutoMapper;
+using AutoMapper;
 using LinCms.Entities.Settings;
 
 namespace LinCms.Cms.Settings;

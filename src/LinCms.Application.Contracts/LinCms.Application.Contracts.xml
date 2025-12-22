@@ -1092,5 +1092,215 @@
             用户所属的权限组id
             </summary>
         </member>
+        <member name="T:LinCms.Application.Contracts.Selection.BIDashboardDto">
+            <summary>
+            BI仪表板DTO
+            </summary>
+        </member>
+        <member name="T:LinCms.Application.Contracts.Selection.ProductKPIDto">
+            <summary>
+            产品KPI DTO
+            </summary>
+        </member>
+        <member name="T:LinCms.Application.Contracts.Selection.AlertDto">
+            <summary>
+            预警DTO
+            </summary>
+        </member>
+        <member name="T:LinCms.Application.Contracts.Selection.CreateUpdateProductDto">
+            <summary>
+            创建/更新产品DTO
+            </summary>
+        </member>
+        <member name="T:LinCms.Application.Contracts.Selection.EnterpriseProfileDto">
+            <summary>
+            企业定位评估DTO
+            </summary>
+        </member>
+        <member name="T:LinCms.Application.Contracts.Selection.CreateEnterpriseProfileDto">
+            <summary>
+            创建企业定位评估DTO
+            </summary>
+        </member>
+        <member name="T:LinCms.Application.Contracts.Selection.GlobalConfigDto">
+            <summary>
+            全局配置DTO
+            </summary>
+        </member>
+        <member name="T:LinCms.Application.Contracts.Selection.CreateUpdateGlobalConfigDto">
+            <summary>
+            创建/更新全局配置DTO
+            </summary>
+        </member>
+        <member name="T:LinCms.Application.Contracts.Selection.SubmitApprovalDto">
+            <summary>
+            提交审批DTO
+            </summary>
+        </member>
+        <member name="T:LinCms.Application.Contracts.Selection.ApproverDto">
+            <summary>
+            审批人DTO
+            </summary>
+        </member>
+        <member name="T:LinCms.Application.Contracts.Selection.ApproveActionDto">
+            <summary>
+            审批操作DTO
+            </summary>
+        </member>
+        <member name="T:LinCms.Application.Contracts.Selection.ProductApprovalDto">
+            <summary>
+            产品审批DTO
+            </summary>
+        </member>
+        <member name="T:LinCms.Application.Contracts.Selection.ApprovalHistoryDto">
+            <summary>
+            审批历史DTO
+            </summary>
+        </member>
+        <member name="T:LinCms.Application.Contracts.Selection.CreateComparisonDto">
+            <summary>
+            创建产品对比DTO
+            </summary>
+        </member>
+        <member name="T:LinCms.Application.Contracts.Selection.ProductComparisonDto">
+            <summary>
+            产品对比DTO
+            </summary>
+        </member>
+        <member name="T:LinCms.Application.Contracts.Selection.ProductRankingDto">
+            <summary>
+            产品排名DTO
+            </summary>
+        </member>
+        <member name="T:LinCms.Application.Contracts.Selection.ProductDataDto">
+            <summary>
+            产品数据DTO
+            </summary>
+        </member>
+        <member name="T:LinCms.Application.Contracts.Selection.LatestScoresDto">
+            <summary>
+            最新评分DTO
+            </summary>
+        </member>
+        <member name="T:LinCms.Application.Contracts.Selection.AddMetricsHistoryDto">
+            <summary>
+            添加历史数据DTO
+            </summary>
+        </member>
+        <member name="T:LinCms.Application.Contracts.Selection.ProductMetricsHistoryDto">
+            <summary>
+            产品指标历史DTO
+            </summary>
+        </member>
+        <member name="T:LinCms.Application.Contracts.Selection.TrendAnalysisDto">
+            <summary>
+            趋势分析结果DTO
+            </summary>
+        </member>
+        <member name="T:LinCms.Application.Contracts.Selection.TrendMetric">
+            <summary>
+            趋势指标
+            </summary>
+        </member>
+        <member name="T:LinCms.Application.Contracts.Selection.DataPoint">
+            <summary>
+            数据点
+            </summary>
+        </member>
+        <member name="T:LinCms.Application.Contracts.Selection.ProductQueryDto">
+            <summary>
+            产品查询DTO
+            </summary>
+        </member>
+        <member name="P:LinCms.Application.Contracts.Selection.ProductQueryDto.Page">
+            <summary>
+            页码
+            </summary>
+        </member>
+        <member name="P:LinCms.Application.Contracts.Selection.ProductQueryDto.Size">
+            <summary>
+            每页数量
+            </summary>
+        </member>
+        <member name="P:LinCms.Application.Contracts.Selection.ProductQueryDto.Status">
+            <summary>
+            状态筛选 (draft/active/archived)
+            </summary>
+        </member>
+        <member name="P:LinCms.Application.Contracts.Selection.ProductQueryDto.Priority">
+            <summary>
+            优先级筛选 (P1/P2/P3/P4)
+            </summary>
+        </member>
+        <member name="P:LinCms.Application.Contracts.Selection.ProductQueryDto.Keyword">
+            <summary>
+            关键词搜索（产品名/ASIN）
+            </summary>
+        </member>
+        <member name="P:LinCms.Application.Contracts.Selection.ProductQueryDto.Sort">
+            <summary>
+            排序字段 (created_at/updated_at/priority_level)
+            </summary>
+        </member>
+        <member name="P:LinCms.Application.Contracts.Selection.ProductQueryDto.Order">
+            <summary>
+            排序方向 (asc/desc)
+            </summary>
+        </member>
+        <member name="T:LinCms.Application.Contracts.Selection.StrategyExecutionDto">
+            <summary>
+            策略执行结果DTO
+            </summary>
+        </member>
+        <member name="T:LinCms.Application.Contracts.Selection.StrategyResultDto">
+            <summary>
+            策略实时执行结果DTO
+            </summary>
+        </member>
+        <member name="T:LinCms.Application.Contracts.Selection.SubResultDto">
+            <summary>
+            子结果DTO
+            </summary>
+        </member>
+        <member name="T:LinCms.Application.Contracts.Selection.IndicatorDto">
+            <summary>
+            指标DTO
+            </summary>
+        </member>
+        <member name="T:LinCms.Application.Contracts.Selection.ExecuteStrategyDto">
+            <summary>
+            执行策略请求DTO
+            </summary>
+        </member>
+        <member name="T:LinCms.Application.Contracts.Selection.ExecuteBatchStrategyDto">
+            <summary>
+            批量执行策略请求DTO
+            </summary>
+        </member>
+        <member name="T:LinCms.Application.Contracts.Selection.StrategyDto">
+            <summary>
+            策略清单信息DTO
+            </summary>
+        </member>
+        <member name="T:LinCms.Application.Contracts.Selection.SelfDiagnosisSubmitDto">
+            <summary>
+            S02自诊提交DTO
+            </summary>
+        </member>
+        <member name="T:LinCms.Application.Contracts.Selection.SensitivityAnalysisDto">
+            <summary>
+            S03敏感性分析DTO
+            </summary>
+        </member>
+        <member name="T:LinCms.Application.Contracts.Selection.StressTestDto">
+            <summary>
+            S18压力测试DTO
+            </summary>
+        </member>
+        <member name="T:LinCms.Application.Contracts.Selection.StrategyConfigDto">
+            <summary>
+            策略配置DTO
+            </summary>
+        </member>
     </members>
 </doc>

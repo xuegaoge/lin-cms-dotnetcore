@@ -1,4 +1,4 @@
-﻿using System.Reflection;
+using System.Reflection;
 using DotNetCore.CAP;
 using FreeSql;
 using Microsoft.Extensions.DependencyInjection;

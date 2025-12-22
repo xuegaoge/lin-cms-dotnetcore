@@ -1,4 +1,4 @@
-﻿using AutoMapper;
+using AutoMapper;
 using LinCms.Cms.Account;
 using LinCms.Cms.Admins;
 using LinCms.Entities;

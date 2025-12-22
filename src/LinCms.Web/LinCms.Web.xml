@@ -818,6 +818,341 @@
             <param name="path">https://p1-jj.byteimg.com/tos-cn-i-t2oaga2asx/leancloud-assets/bac28828a49181c34110.png</param>
             <returns></returns>
         </member>
+        <member name="T:LinCms.Web.Controllers.Selection.ApprovalController">
+            <summary>
+            审批流程API
+            </summary>
+        </member>
+        <member name="M:LinCms.Web.Controllers.Selection.ApprovalController.SubmitApproval(System.Int64,LinCms.Application.Contracts.Selection.SubmitApprovalDto)">
+            <summary>
+            提交产品审批
+            </summary>
+        </member>
+        <member name="M:LinCms.Web.Controllers.Selection.ApprovalController.Approve(System.Int64,LinCms.Application.Contracts.Selection.ApproveActionDto)">
+            <summary>
+            审批操作
+            </summary>
+        </member>
+        <member name="M:LinCms.Web.Controllers.Selection.ApprovalController.GetApprovalStatus(System.Int64)">
+            <summary>
+            获取审批状态
+            </summary>
+        </member>
+        <member name="M:LinCms.Web.Controllers.Selection.ApprovalController.GetPendingApprovals(System.Int32,System.Int32)">
+            <summary>
+            获取待我审批列表
+            </summary>
+        </member>
+        <member name="M:LinCms.Web.Controllers.Selection.ApprovalController.GetMyApprovalHistory(System.Int32,System.Int32)">
+            <summary>
+            获取我的审批历史
+            </summary>
+        </member>
+        <member name="T:LinCms.Web.Controllers.Selection.ComparisonController">
+            <summary>
+            产品对比API
+            </summary>
+        </member>
+        <member name="M:LinCms.Web.Controllers.Selection.ComparisonController.CreateComparison(LinCms.Application.Contracts.Selection.CreateComparisonDto)">
+            <summary>
+            创建产品对比
+            </summary>
+        </member>
+        <member name="M:LinCms.Web.Controllers.Selection.ComparisonController.GetComparison(System.Int64)">
+            <summary>
+            获取对比详情
+            </summary>
+        </member>
+        <member name="M:LinCms.Web.Controllers.Selection.ComparisonController.GetComparisons(System.Int32,System.Int32)">
+            <summary>
+            获取对比列表
+            </summary>
+        </member>
+        <member name="M:LinCms.Web.Controllers.Selection.ComparisonController.DeleteComparison(System.Int64)">
+            <summary>
+            删除对比
+            </summary>
+        </member>
+        <member name="T:LinCms.Web.Controllers.Selection.ConfigController">
+            <summary>
+            全局配置API
+            </summary>
+        </member>
+        <member name="M:LinCms.Web.Controllers.Selection.ConfigController.GetConfigs(System.String,System.Int32,System.Int32)">
+            <summary>
+            获取配置列表
+            </summary>
+        </member>
+        <member name="M:LinCms.Web.Controllers.Selection.ConfigController.GetConfig(System.String,System.String)">
+            <summary>
+            获取单个配置
+            </summary>
+        </member>
+        <member name="M:LinCms.Web.Controllers.Selection.ConfigController.CreateConfig(LinCms.Application.Contracts.Selection.CreateUpdateGlobalConfigDto)">
+            <summary>
+            创建配置
+            </summary>
+        </member>
+        <member name="M:LinCms.Web.Controllers.Selection.ConfigController.UpdateConfig(System.Int64,LinCms.Application.Contracts.Selection.CreateUpdateGlobalConfigDto)">
+            <summary>
+            更新配置
+            </summary>
+        </member>
+        <member name="M:LinCms.Web.Controllers.Selection.ConfigController.DeleteConfig(System.Int64)">
+            <summary>
+            删除配置
+            </summary>
+        </member>
+        <member name="T:LinCms.Web.Controllers.Selection.DashboardController">
+            <summary>
+            BI仪表板API
+            </summary>
+        </member>
+        <member name="M:LinCms.Web.Controllers.Selection.DashboardController.GetBIDashboard">
+            <summary>
+            获取BI仪表板数据
+            </summary>
+        </member>
+        <member name="M:LinCms.Web.Controllers.Selection.DashboardController.GetAlerts(System.Int32,System.Int32)">
+            <summary>
+            获取预警列表
+            </summary>
+        </member>
+        <member name="T:LinCms.Web.Controllers.Selection.ProductKPIController">
+            <summary>
+            产品KPI API
+            </summary>
+        </member>
+        <member name="M:LinCms.Web.Controllers.Selection.ProductKPIController.GetProductKPI(System.Int64)">
+            <summary>
+            获取单个产品KPI
+            </summary>
+        </member>
+        <member name="T:LinCms.Web.Controllers.Selection.SOPController">
+            <summary>
+            SOP执行API
+            </summary>
+        </member>
+        <member name="M:LinCms.Web.Controllers.Selection.SOPController.CreateSOP(System.Int64)">
+            <summary>
+            创建SOP计划
+            </summary>
+        </member>
+        <member name="M:LinCms.Web.Controllers.Selection.SOPController.GetSOP(System.Int64)">
+            <summary>
+            获取SOP状态
+            </summary>
+        </member>
+        <member name="M:LinCms.Web.Controllers.Selection.SOPController.UpdateTask(System.Int64,System.Object)">
+            <summary>
+            更新SOP任务
+            </summary>
+        </member>
+        <member name="M:LinCms.Web.Controllers.Selection.SOPController.GetGantt(System.Nullable{System.Int64})">
+            <summary>
+            获取甘特图数据
+            </summary>
+        </member>
+        <member name="T:LinCms.Web.Controllers.Selection.ChecklistController">
+            <summary>
+            检查清单API
+            </summary>
+        </member>
+        <member name="M:LinCms.Web.Controllers.Selection.ChecklistController.GetChecklist(System.Int64)">
+            <summary>
+            获取检查清单
+            </summary>
+        </member>
+        <member name="M:LinCms.Web.Controllers.Selection.ChecklistController.CheckItem(System.Int64,System.Object)">
+            <summary>
+            标记检查项完成
+            </summary>
+        </member>
+        <member name="M:LinCms.Web.Controllers.Selection.ChecklistController.GetTemplate">
+            <summary>
+            获取检查清单模板
+            </summary>
+        </member>
+        <member name="T:LinCms.Web.Controllers.Selection.EnterpriseController">
+            <summary>
+            企业定位API
+            </summary>
+        </member>
+        <member name="M:LinCms.Web.Controllers.Selection.EnterpriseController.GetCurrentProfile(System.Int64)">
+            <summary>
+            获取当前企业定位
+            </summary>
+        </member>
+        <member name="M:LinCms.Web.Controllers.Selection.EnterpriseController.CreateProfile(LinCms.Application.Contracts.Selection.CreateEnterpriseProfileDto,System.Int64)">
+            <summary>
+            创建企业定位评估
+            </summary>
+        </member>
+        <member name="M:LinCms.Web.Controllers.Selection.EnterpriseController.GetHistory(System.Int64,System.Int32,System.Int32)">
+            <summary>
+            获取历史评估记录
+            </summary>
+        </member>
+        <member name="M:LinCms.Web.Controllers.Selection.EnterpriseController.UpdateProfile(System.Int64,LinCms.Application.Contracts.Selection.CreateEnterpriseProfileDto)">
+            <summary>
+            更新企业定位
+            </summary>
+        </member>
+        <member name="M:LinCms.Web.Controllers.Selection.EnterpriseController.ActivateProfile(System.Int64,System.Int64)">
+            <summary>
+            激活某个历史评估
+            </summary>
+        </member>
+        <member name="T:LinCms.Web.Controllers.Selection.MetricsController">
+            <summary>
+            产品指标历史API
+            </summary>
+        </member>
+        <member name="M:LinCms.Web.Controllers.Selection.MetricsController.AddMetrics(System.Int64,LinCms.Application.Contracts.Selection.AddMetricsHistoryDto)">
+            <summary>
+            添加历史数据
+            </summary>
+        </member>
+        <member name="M:LinCms.Web.Controllers.Selection.MetricsController.GetHistory(System.Int64,System.Nullable{System.DateTime},System.Nullable{System.DateTime},System.Int32,System.Int32)">
+            <summary>
+            获取历史数据
+            </summary>
+        </member>
+        <member name="M:LinCms.Web.Controllers.Selection.MetricsController.GetTrends(System.Int64,System.Int32)">
+            <summary>
+            获取趋势分析
+            </summary>
+        </member>
+        <member name="M:LinCms.Web.Controllers.Selection.MetricsController.BatchAddMetrics(System.Int64,System.Collections.Generic.List{LinCms.Application.Contracts.Selection.AddMetricsHistoryDto})">
+            <summary>
+            批量上传历史数据
+            </summary>
+        </member>
+        <member name="T:LinCms.Web.Controllers.Selection.ProductController">
+            <summary>
+            产品管理API
+            </summary>
+        </member>
+        <member name="M:LinCms.Web.Controllers.Selection.ProductController.GetProducts(LinCms.Application.Contracts.Selection.ProductQueryDto)">
+            <summary>
+            获取产品列表
+            </summary>
+        </member>
+        <member name="M:LinCms.Web.Controllers.Selection.ProductController.GetProduct(System.Int64)">
+            <summary>
+            获取单个产品详情
+            </summary>
+        </member>
+        <member name="M:LinCms.Web.Controllers.Selection.ProductController.CreateProduct(LinCms.Application.Contracts.Selection.CreateUpdateProductDto)">
+            <summary>
+            创建产品
+            </summary>
+        </member>
+        <member name="M:LinCms.Web.Controllers.Selection.ProductController.UpdateProduct(System.Int64,LinCms.Application.Contracts.Selection.CreateUpdateProductDto)">
+            <summary>
+            更新产品
+            </summary>
+        </member>
+        <member name="M:LinCms.Web.Controllers.Selection.ProductController.PatchProduct(System.Int64,LinCms.Application.Contracts.Selection.CreateUpdateProductDto)">
+            <summary>
+            部分更新产品
+            </summary>
+        </member>
+        <member name="M:LinCms.Web.Controllers.Selection.ProductController.DeleteProduct(System.Int64)">
+            <summary>
+            删除产品
+            </summary>
+        </member>
+        <member name="M:LinCms.Web.Controllers.Selection.ProductController.BatchDeleteProducts(System.Collections.Generic.List{System.Int64})">
+            <summary>
+            批量删除产品
+            </summary>
+        </member>
+        <member name="M:LinCms.Web.Controllers.Selection.ProductController.BatchImportProducts">
+            <summary>
+            批量导入产品
+            </summary>
+        </member>
+        <member name="M:LinCms.Web.Controllers.Selection.ProductController.ExportProducts(System.String,System.String)">
+            <summary>
+            导出产品
+            </summary>
+        </member>
+        <member name="M:LinCms.Web.Controllers.Selection.ProductController.UpdateKeywords(System.Int64,System.Collections.Generic.List{LinCms.Application.Contracts.Selection.ProductKeywordDto})">
+            <summary>
+            更新产品关键词 (S19)
+            </summary>
+        </member>
+        <member name="M:LinCms.Web.Controllers.Selection.ProductController.UpdateTrends(System.Int64,System.Collections.Generic.List{LinCms.Application.Contracts.Selection.ProductTrendDto})">
+            <summary>
+            更新产品趋势数据 (S20)
+            </summary>
+        </member>
+        <member name="T:LinCms.Web.Controllers.Selection.StrategyController">
+            <summary>
+            策略执行API
+            </summary>
+        </member>
+        <member name="M:LinCms.Web.Controllers.Selection.StrategyController.GetAllStrategies">
+            <summary>
+            获取所有策略清单
+            </summary>
+        </member>
+        <member name="M:LinCms.Web.Controllers.Selection.StrategyController.ExecuteStrategy(System.String,LinCms.Application.Contracts.Selection.ExecuteStrategyDto)">
+            <summary>
+            执行单个策略
+            </summary>
+        </member>
+        <member name="M:LinCms.Web.Controllers.Selection.StrategyController.ExecuteBatchStrategies(LinCms.Application.Contracts.Selection.ExecuteBatchStrategyDto)">
+            <summary>
+            批量执行策略
+            </summary>
+        </member>
+        <member name="M:LinCms.Web.Controllers.Selection.StrategyController.ExecuteAllStrategies(LinCms.Application.Contracts.Selection.ExecuteStrategyDto)">
+            <summary>
+            执行所有策略
+            </summary>
+        </member>
+        <member name="M:LinCms.Web.Controllers.Selection.StrategyController.GetExecutionHistory(System.Int64,System.String,System.Int32,System.Int32)">
+            <summary>
+            获取策略执行历史
+            </summary>
+        </member>
+        <member name="M:LinCms.Web.Controllers.Selection.StrategyController.GetExecutionDetail(System.Int64)">
+            <summary>
+            获取单次执行详情
+            </summary>
+        </member>
+        <member name="M:LinCms.Web.Controllers.Selection.StrategyController.ReExecuteStrategy(System.Int64)">
+            <summary>
+            重新执行历史策略
+            </summary>
+        </member>
+        <member name="M:LinCms.Web.Controllers.Selection.StrategyController.SubmitSelfDiagnosis(LinCms.Application.Contracts.Selection.SelfDiagnosisSubmitDto)">
+            <summary>
+            S02-40题自诊提交
+            </summary>
+        </member>
+        <member name="M:LinCms.Web.Controllers.Selection.StrategyController.SensitivityAnalysis(LinCms.Application.Contracts.Selection.SensitivityAnalysisDto)">
+            <summary>
+            S03-敏感性分析
+            </summary>
+        </member>
+        <member name="M:LinCms.Web.Controllers.Selection.StrategyController.StressTest(LinCms.Application.Contracts.Selection.StressTestDto)">
+            <summary>
+            S18-压力测试
+            </summary>
+        </member>
+        <member name="M:LinCms.Web.Controllers.Selection.StrategyController.GetStrategyConfig(System.String)">
+            <summary>
+            获取策略配置
+            </summary>
+        </member>
+        <member name="M:LinCms.Web.Controllers.Selection.StrategyController.UpdateStrategyConfig(System.String,LinCms.Application.Contracts.Selection.StrategyConfigDto)">
+            <summary>
+            更新策略阈值（管理员）
+            </summary>
+        </member>
         <member name="T:LinCms.Data.Authorization.ValidJtiHandler">
             <summary>
             退出登录Token 将过期

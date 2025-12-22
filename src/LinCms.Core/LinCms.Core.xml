@@ -1178,6 +1178,1041 @@
             扩展属性
             </summary>
         </member>
+        <member name="T:LinCms.Entities.Selection.EnterpriseProfile">
+            <summary>
+            企业定位评估表 - S11策略使用
+            </summary>
+        </member>
+        <member name="P:LinCms.Entities.Selection.EnterpriseProfile.OrganizationId">
+            <summary>
+            关联组织/团队ID
+            </summary>
+        </member>
+        <member name="P:LinCms.Entities.Selection.EnterpriseProfile.EnterpriseLevel">
+            <summary>
+            企业层级 (上市/集团/中小/初创)
+            </summary>
+        </member>
+        <member name="P:LinCms.Entities.Selection.EnterpriseProfile.CapitalScale">
+            <summary>
+            资金规模 (万)
+            </summary>
+        </member>
+        <member name="P:LinCms.Entities.Selection.EnterpriseProfile.TeamSize">
+            <summary>
+            团队规模 (人)
+            </summary>
+        </member>
+        <member name="P:LinCms.Entities.Selection.EnterpriseProfile.OperationYears">
+            <summary>
+            运营年限 (年)
+            </summary>
+        </member>
+        <member name="P:LinCms.Entities.Selection.EnterpriseProfile.SupplyChainCapability">
+            <summary>
+            供应链能力 (强/中/弱)
+            </summary>
+        </member>
+        <member name="P:LinCms.Entities.Selection.EnterpriseProfile.BrandCapability">
+            <summary>
+            品牌能力 (强/中/弱)
+            </summary>
+        </member>
+        <member name="P:LinCms.Entities.Selection.EnterpriseProfile.TechnologyCapability">
+            <summary>
+            技术能力 (强/中/弱)
+            </summary>
+        </member>
+        <member name="P:LinCms.Entities.Selection.EnterpriseProfile.MarketResources">
+            <summary>
+            市场资源 (强/中/弱)
+            </summary>
+        </member>
+        <member name="P:LinCms.Entities.Selection.EnterpriseProfile.RiskPreference">
+            <summary>
+            风险偏好 (高/中/低)
+            </summary>
+        </member>
+        <member name="P:LinCms.Entities.Selection.EnterpriseProfile.FundingCapacity">
+            <summary>
+            资金体量评分
+            </summary>
+        </member>
+        <member name="P:LinCms.Entities.Selection.EnterpriseProfile.TeamExperience">
+            <summary>
+            团队经验评分
+            </summary>
+        </member>
+        <member name="P:LinCms.Entities.Selection.EnterpriseProfile.SupplyChainDepth">
+            <summary>
+            供应链深度评分
+            </summary>
+        </member>
+        <member name="P:LinCms.Entities.Selection.EnterpriseProfile.OperationCapability">
+            <summary>
+            运营能力评分
+            </summary>
+        </member>
+        <member name="P:LinCms.Entities.Selection.EnterpriseProfile.RiskTolerance">
+            <summary>
+            风险承受度评分
+            </summary>
+        </member>
+        <member name="P:LinCms.Entities.Selection.EnterpriseProfile.MarketInsight">
+            <summary>
+            市场洞察评分
+            </summary>
+        </member>
+        <member name="P:LinCms.Entities.Selection.EnterpriseProfile.TechCapability">
+            <summary>
+            技术能力评分
+            </summary>
+        </member>
+        <member name="P:LinCms.Entities.Selection.EnterpriseProfile.BrandAwareness">
+            <summary>
+            品牌意识评分
+            </summary>
+        </member>
+        <member name="P:LinCms.Entities.Selection.EnterpriseProfile.TotalScore">
+            <summary>
+            综合得分 (加权平均)
+            </summary>
+        </member>
+        <member name="P:LinCms.Entities.Selection.EnterpriseProfile.Grade">
+            <summary>
+            等级 (A/B/C/D/E)
+            </summary>
+        </member>
+        <member name="P:LinCms.Entities.Selection.EnterpriseProfile.WeightConfig">
+            <summary>
+            权重配置 (JSON格式)
+            </summary>
+        </member>
+        <member name="P:LinCms.Entities.Selection.EnterpriseProfile.EvaluatedAt">
+            <summary>
+            评估时间
+            </summary>
+        </member>
+        <member name="P:LinCms.Entities.Selection.EnterpriseProfile.EvaluatedBy">
+            <summary>
+            评估人ID
+            </summary>
+        </member>
+        <member name="P:LinCms.Entities.Selection.EnterpriseProfile.IsCurrent">
+            <summary>
+            是否当前有效
+            </summary>
+        </member>
+        <member name="P:LinCms.Entities.Selection.EnterpriseProfile.Notes">
+            <summary>
+            备注
+            </summary>
+        </member>
+        <member name="T:LinCms.Entities.Selection.GlobalConfig">
+            <summary>
+            全局配置表
+            </summary>
+        </member>
+        <member name="P:LinCms.Entities.Selection.GlobalConfig.ConfigGroup">
+            <summary>
+            配置分组 (tax/shipping/fba/commission/exchange/threshold)
+            </summary>
+        </member>
+        <member name="P:LinCms.Entities.Selection.GlobalConfig.ConfigKey">
+            <summary>
+            配置键
+            </summary>
+        </member>
+        <member name="P:LinCms.Entities.Selection.GlobalConfig.ConfigValue">
+            <summary>
+            配置值 (JSON格式)
+            </summary>
+        </member>
+        <member name="P:LinCms.Entities.Selection.GlobalConfig.Description">
+            <summary>
+            说明
+            </summary>
+        </member>
+        <member name="P:LinCms.Entities.Selection.GlobalConfig.IsActive">
+            <summary>
+            是否激活
+            </summary>
+        </member>
+        <member name="P:LinCms.Entities.Selection.GlobalConfig.UpdatedBy">
+            <summary>
+            更新人ID
+            </summary>
+        </member>
+        <member name="T:LinCms.Entities.Selection.ProductApproval">
+            <summary>
+            产品审批表 - 审批流程使用
+            </summary>
+        </member>
+        <member name="P:LinCms.Entities.Selection.ProductApproval.ProductId">
+            <summary>
+            关联产品ID
+            </summary>
+        </member>
+        <member name="P:LinCms.Entities.Selection.ProductApproval.StrategyExecutionId">
+            <summary>
+            关联策略执行ID
+            </summary>
+        </member>
+        <member name="P:LinCms.Entities.Selection.ProductApproval.CurrentStage">
+            <summary>
+            当前审批阶段 (product/operation/finance/ceo)
+            </summary>
+        </member>
+        <member name="P:LinCms.Entities.Selection.ProductApproval.ApprovalHistory">
+            <summary>
+            审批历史 (JSON数组)
+            </summary>
+        </member>
+        <member name="P:LinCms.Entities.Selection.ProductApproval.ApprovalChain">
+            <summary>
+            审批链配置 (JSON数组)
+            </summary>
+        </member>
+        <member name="P:LinCms.Entities.Selection.ProductApproval.IsCompleted">
+            <summary>
+            是否完成
+            </summary>
+        </member>
+        <member name="P:LinCms.Entities.Selection.ProductApproval.FinalResult">
+            <summary>
+            最终结果 (approved/rejected/pending)
+            </summary>
+        </member>
+        <member name="P:LinCms.Entities.Selection.ProductApproval.CompletedAt">
+            <summary>
+            完成时间
+            </summary>
+        </member>
+        <member name="P:LinCms.Entities.Selection.ProductApproval.SubmittedBy">
+            <summary>
+            提交人ID
+            </summary>
+        </member>
+        <member name="P:LinCms.Entities.Selection.ProductApproval.SubmittedAt">
+            <summary>
+            提交时间
+            </summary>
+        </member>
+        <member name="T:LinCms.Entities.Selection.ProductComparison">
+            <summary>
+            多产品对比表 - M04综合决策表使用
+            </summary>
+        </member>
+        <member name="P:LinCms.Entities.Selection.ProductComparison.ComparisonName">
+            <summary>
+            对比名称
+            </summary>
+        </member>
+        <member name="P:LinCms.Entities.Selection.ProductComparison.ProductIds">
+            <summary>
+            产品ID列表 (JSON数组)
+            </summary>
+        </member>
+        <member name="P:LinCms.Entities.Selection.ProductComparison.ProductCount">
+            <summary>
+            产品数量
+            </summary>
+        </member>
+        <member name="P:LinCms.Entities.Selection.ProductComparison.ComparisonMatrix">
+            <summary>
+            对比矩阵 (JSON)
+            </summary>
+        </member>
+        <member name="P:LinCms.Entities.Selection.ProductComparison.PriorityRanking">
+            <summary>
+            优先级排名 (JSON)
+            </summary>
+        </member>
+        <member name="P:LinCms.Entities.Selection.ProductComparison.Recommendation">
+            <summary>
+            推荐意见
+            </summary>
+        </member>
+        <member name="P:LinCms.Entities.Selection.ProductComparison.CreatedBy">
+            <summary>
+            创建人ID
+            </summary>
+        </member>
+        <member name="T:LinCms.Entities.Selection.ProductData">
+            <summary>
+            产品数据主表 - 核心表，包含52个字段
+            </summary>
+        </member>
+        <member name="P:LinCms.Entities.Selection.ProductData.ProductName">
+            <summary>
+            产品名称
+            </summary>
+        </member>
+        <member name="P:LinCms.Entities.Selection.ProductData.ASIN">
+            <summary>
+            Amazon ASIN
+            </summary>
+        </member>
+        <member name="P:LinCms.Entities.Selection.ProductData.Category">
+            <summary>
+            产品类目
+            </summary>
+        </member>
+        <member name="P:LinCms.Entities.Selection.ProductData.Brand">
+            <summary>
+            品牌
+            </summary>
+        </member>
+        <member name="P:LinCms.Entities.Selection.ProductData.MonthlySearchVolume">
+            <summary>
+            月搜索量
+            </summary>
+        </member>
+        <member name="P:LinCms.Entities.Selection.ProductData.EstimatedMonthlySales">
+            <summary>
+            预估月销量
+            </summary>
+        </member>
+        <member name="P:LinCms.Entities.Selection.ProductData.SearchGrowthRate">
+            <summary>
+            搜索增长率 (%)
+            </summary>
+        </member>
+        <member name="P:LinCms.Entities.Selection.ProductData.CompetitorCount">
+            <summary>
+            竞品数量
+            </summary>
+        </member>
+        <member name="P:LinCms.Entities.Selection.ProductData.TopConcentration">
+            <summary>
+            头部集中度CR3 (0-1)
+            </summary>
+        </member>
+        <member name="P:LinCms.Entities.Selection.ProductData.NewProductRatio">
+            <summary>
+            新品占比 (0-1)
+            </summary>
+        </member>
+        <member name="P:LinCms.Entities.Selection.ProductData.AverageRating">
+            <summary>
+            平均评分 (1-5)
+            </summary>
+        </member>
+        <member name="P:LinCms.Entities.Selection.ProductData.TotalReviews">
+            <summary>
+            Review总数
+            </summary>
+        </member>
+        <member name="P:LinCms.Entities.Selection.ProductData.Seasonality">
+            <summary>
+            季节性指数 (峰值/平均)
+            </summary>
+        </member>
+        <member name="P:LinCms.Entities.Selection.ProductData.TargetPrice">
+            <summary>
+            目标售价 ($)
+            </summary>
+        </member>
+        <member name="P:LinCms.Entities.Selection.ProductData.PurchaseCost">
+            <summary>
+            采购成本 ($)
+            </summary>
+        </member>
+        <member name="P:LinCms.Entities.Selection.ProductData.ShippingCost">
+            <summary>
+            头程运费 ($)
+            </summary>
+        </member>
+        <member name="P:LinCms.Entities.Selection.ProductData.FBACost">
+            <summary>
+            FBA费用 ($)
+            </summary>
+        </member>
+        <member name="P:LinCms.Entities.Selection.ProductData.WeightKg">
+            <summary>
+            重量 (kg)
+            </summary>
+        </member>
+        <member name="P:LinCms.Entities.Selection.ProductData.VolumeCbm">
+            <summary>
+            体积 (cbm)
+            </summary>
+        </member>
+        <member name="P:LinCms.Entities.Selection.ProductData.AdvertisingCPC">
+            <summary>
+            广告CPC ($)
+            </summary>
+        </member>
+        <member name="P:LinCms.Entities.Selection.ProductData.ConversionRate">
+            <summary>
+            预期转化率 (0-1)
+            </summary>
+        </member>
+        <member name="P:LinCms.Entities.Selection.ProductData.ClickThroughRate">
+            <summary>
+            预期点击率 (0-1)
+            </summary>
+        </member>
+        <member name="P:LinCms.Entities.Selection.ProductData.SupplierCount">
+            <summary>
+            供应商数量
+            </summary>
+        </member>
+        <member name="P:LinCms.Entities.Selection.ProductData.SupplierStability">
+            <summary>
+            供应商稳定性评分 (0-100)
+            </summary>
+        </member>
+        <member name="P:LinCms.Entities.Selection.ProductData.LeadTimeDays">
+            <summary>
+            交期 (天)
+            </summary>
+        </member>
+        <member name="P:LinCms.Entities.Selection.ProductData.MOQ">
+            <summary>
+            最小起订量
+            </summary>
+        </member>
+        <member name="P:LinCms.Entities.Selection.ProductData.PriceVolatility">
+            <summary>
+            价格波动率 (0-1)
+            </summary>
+        </member>
+        <member name="P:LinCms.Entities.Selection.ProductData.InfringementRisk">
+            <summary>
+            侵权风险 (高/中/低)
+            </summary>
+        </member>
+        <member name="P:LinCms.Entities.Selection.ProductData.CertificationLevel">
+            <summary>
+            认证要求 (严/松)
+            </summary>
+        </member>
+        <member name="P:LinCms.Entities.Selection.ProductData.PolicyRisk">
+            <summary>
+            政策风险评分 (0-1)
+            </summary>
+        </member>
+        <member name="P:LinCms.Entities.Selection.ProductData.ReturnRate">
+            <summary>
+            预期退货率 (0-1)
+            </summary>
+        </member>
+        <member name="P:LinCms.Entities.Selection.ProductData.Material">
+            <summary>
+            材质
+            </summary>
+        </member>
+        <member name="P:LinCms.Entities.Selection.ProductData.VariantCount">
+            <summary>
+            变体数
+            </summary>
+        </member>
+        <member name="P:LinCms.Entities.Selection.ProductData.IsFragile">
+            <summary>
+            是否易碎
+            </summary>
+        </member>
+        <member name="P:LinCms.Entities.Selection.ProductData.IsLiquid">
+            <summary>
+            是否液体
+            </summary>
+        </member>
+        <member name="P:LinCms.Entities.Selection.ProductData.IsDangerous">
+            <summary>
+            是否危险品
+            </summary>
+        </member>
+        <member name="P:LinCms.Entities.Selection.ProductData.ProductLifecycle">
+            <summary>
+            产品生命周期 (月)
+            </summary>
+        </member>
+        <member name="P:LinCms.Entities.Selection.ProductData.RepurchaseRate">
+            <summary>
+            复购率潜力 (0-1)
+            </summary>
+        </member>
+        <member name="P:LinCms.Entities.Selection.ProductData.HasAmazonChoice">
+            <summary>
+            TOP10是否有亚马逊自营
+            </summary>
+        </member>
+        <member name="P:LinCms.Entities.Selection.ProductData.BSRTop10">
+            <summary>
+            BSR TOP10排名
+            </summary>
+        </member>
+        <member name="P:LinCms.Entities.Selection.ProductData.BSRTop50">
+            <summary>
+            BSR TOP50排名
+            </summary>
+        </member>
+        <member name="P:LinCms.Entities.Selection.ProductData.LongTailKeywordRatio">
+            <summary>
+            长尾关键词占比 (0-1)
+            </summary>
+        </member>
+        <member name="P:LinCms.Entities.Selection.ProductData.NewProductSuccessRate">
+            <summary>
+            新品成功率 (0-1)
+            </summary>
+        </member>
+        <member name="P:LinCms.Entities.Selection.ProductData.QAUnanswered">
+            <summary>
+            未回答的QA数量
+            </summary>
+        </member>
+        <member name="P:LinCms.Entities.Selection.ProductData.DifferentiationPoints">
+            <summary>
+            差异化卖点数量 (3-10)
+            </summary>
+        </member>
+        <member name="P:LinCms.Entities.Selection.ProductData.FunctionDiff">
+            <summary>
+            功能差异评分 (0-10)
+            </summary>
+        </member>
+        <member name="P:LinCms.Entities.Selection.ProductData.MaterialDiff">
+            <summary>
+            材质差异评分 (0-10)
+            </summary>
+        </member>
+        <member name="P:LinCms.Entities.Selection.ProductData.DesignDiff">
+            <summary>
+            设计差异评分 (0-10)
+            </summary>
+        </member>
+        <member name="P:LinCms.Entities.Selection.ProductData.PackagingDiff">
+            <summary>
+            包装差异评分 (0-10)
+            </summary>
+        </member>
+        <member name="P:LinCms.Entities.Selection.ProductData.Status">
+            <summary>
+            状态 (draft/active/archived)
+            </summary>
+        </member>
+        <member name="P:LinCms.Entities.Selection.ProductData.PriorityLevel">
+            <summary>
+            优先级 (P1/P2/P3/P4)
+            </summary>
+        </member>
+        <member name="P:LinCms.Entities.Selection.ProductData.AssignedTo">
+            <summary>
+            分配给谁
+            </summary>
+        </member>
+        <member name="P:LinCms.Entities.Selection.ProductData.LatestDecision">
+            <summary>
+            最新决策 (GO/WAIT/STOP)
+            </summary>
+        </member>
+        <member name="T:LinCms.Entities.Selection.ProductMetricsHistory">
+            <summary>
+            产品指标历史数据表 - 用于趋势分析
+            </summary>
+        </member>
+        <member name="P:LinCms.Entities.Selection.ProductMetricsHistory.Id">
+            <summary>
+            主键ID
+            </summary>
+        </member>
+        <member name="P:LinCms.Entities.Selection.ProductMetricsHistory.ProductId">
+            <summary>
+            关联产品ID
+            </summary>
+        </member>
+        <member name="P:LinCms.Entities.Selection.ProductMetricsHistory.MetricDate">
+            <summary>
+            指标日期
+            </summary>
+        </member>
+        <member name="P:LinCms.Entities.Selection.ProductMetricsHistory.DailySales">
+            <summary>
+            日销量
+            </summary>
+        </member>
+        <member name="P:LinCms.Entities.Selection.ProductMetricsHistory.AveragePrice">
+            <summary>
+            平均价格
+            </summary>
+        </member>
+        <member name="P:LinCms.Entities.Selection.ProductMetricsHistory.SearchVolume">
+            <summary>
+            搜索量
+            </summary>
+        </member>
+        <member name="P:LinCms.Entities.Selection.ProductMetricsHistory.BSRRank">
+            <summary>
+            BSR排名
+            </summary>
+        </member>
+        <member name="P:LinCms.Entities.Selection.ProductMetricsHistory.AverageRating">
+            <summary>
+            平均评分
+            </summary>
+        </member>
+        <member name="P:LinCms.Entities.Selection.ProductMetricsHistory.ReviewCount">
+            <summary>
+            Review数量
+            </summary>
+        </member>
+        <member name="P:LinCms.Entities.Selection.ProductMetricsHistory.ConversionRate">
+            <summary>
+            转化率
+            </summary>
+        </member>
+        <member name="P:LinCms.Entities.Selection.ProductMetricsHistory.ClickThroughRate">
+            <summary>
+            点击率
+            </summary>
+        </member>
+        <member name="P:LinCms.Entities.Selection.ProductMetricsHistory.ACOS">
+            <summary>
+            ACOS (广告成本销售比)
+            </summary>
+        </member>
+        <member name="P:LinCms.Entities.Selection.ProductMetricsHistory.StockQuantity">
+            <summary>
+            库存数量
+            </summary>
+        </member>
+        <member name="P:LinCms.Entities.Selection.ProductMetricsHistory.DataSource">
+            <summary>
+            数据来源 (manual/api/scraper)
+            </summary>
+        </member>
+        <member name="P:LinCms.Entities.Selection.ProductMetricsHistory.CreatedAt">
+            <summary>
+            创建时间
+            </summary>
+        </member>
+        <member name="T:LinCms.Entities.Selection.ProductKeyword">
+            <summary>
+            S19 关键词研究数据
+            </summary>
+        </member>
+        <member name="P:LinCms.Entities.Selection.ProductKeyword.Keyword">
+            <summary>
+            关键词
+            </summary>
+        </member>
+        <member name="P:LinCms.Entities.Selection.ProductKeyword.Type">
+            <summary>
+            类型 (核心词/长尾词/品牌词/场景词/属性词)
+            </summary>
+        </member>
+        <member name="P:LinCms.Entities.Selection.ProductKeyword.SearchVolume">
+            <summary>
+            月搜索量
+            </summary>
+        </member>
+        <member name="P:LinCms.Entities.Selection.ProductKeyword.CompetitorCount">
+            <summary>
+            竞品数
+            </summary>
+        </member>
+        <member name="P:LinCms.Entities.Selection.ProductKeyword.SPR">
+            <summary>
+            SPR值 (=搜索量/竞品数*1000)
+            </summary>
+        </member>
+        <member name="P:LinCms.Entities.Selection.ProductKeyword.BidPrice">
+            <summary>
+            建议出价 ($)
+            </summary>
+        </member>
+        <member name="P:LinCms.Entities.Selection.ProductKeyword.CompetitionLevel">
+            <summary>
+            竞争度 (低/中/高)
+            </summary>
+        </member>
+        <member name="P:LinCms.Entities.Selection.ProductKeyword.OpportunityScore">
+            <summary>
+            机会指数 (0-100)
+            </summary>
+        </member>
+        <member name="P:LinCms.Entities.Selection.ProductKeyword.Priority">
+            <summary>
+            优先级 (高/中/低)
+            </summary>
+        </member>
+        <member name="P:LinCms.Entities.Selection.ProductKeyword.CurrentRank">
+            <summary>
+            当前排名
+            </summary>
+        </member>
+        <member name="P:LinCms.Entities.Selection.ProductKeyword.TargetRank">
+            <summary>
+            目标排名
+            </summary>
+        </member>
+        <member name="T:LinCms.Entities.Selection.ProductTrend">
+            <summary>
+            S20 市场趋势数据 (按指标存储12个月数据)
+            </summary>
+        </member>
+        <member name="P:LinCms.Entities.Selection.ProductTrend.MetricName">
+            <summary>
+            指标名称 (月搜索量/月销量/平均售价/竞品数量/新品数量/平均评分/广告CPC/退货率)
+            </summary>
+        </member>
+        <member name="P:LinCms.Entities.Selection.ProductTrend.YearMean">
+            <summary>
+            年均值
+            </summary>
+        </member>
+        <member name="P:LinCms.Entities.Selection.ProductTrend.Trend">
+            <summary>
+            趋势判定 (上升/下降/稳定)
+            </summary>
+        </member>
+        <member name="P:LinCms.Entities.Selection.ProductTrend.SeasonalityIndex">
+            <summary>
+            季节性指数
+            </summary>
+        </member>
+        <member name="T:LinCms.Entities.Selection.RiskAlert">
+            <summary>
+            风险预警记录表 - S04策略使用
+            </summary>
+        </member>
+        <member name="P:LinCms.Entities.Selection.RiskAlert.Id">
+            <summary>
+            主键ID
+            </summary>
+        </member>
+        <member name="P:LinCms.Entities.Selection.RiskAlert.ProductId">
+            <summary>
+            关联产品ID
+            </summary>
+        </member>
+        <member name="P:LinCms.Entities.Selection.RiskAlert.ExecutionId">
+            <summary>
+            关联策略执行ID
+            </summary>
+        </member>
+        <member name="P:LinCms.Entities.Selection.RiskAlert.RiskCode">
+            <summary>
+            风险代码 (R01/R02/...)
+            </summary>
+        </member>
+        <member name="P:LinCms.Entities.Selection.RiskAlert.RiskName">
+            <summary>
+            风险名称
+            </summary>
+        </member>
+        <member name="P:LinCms.Entities.Selection.RiskAlert.RiskLevel">
+            <summary>
+            风险等级 (高/中/低)
+            </summary>
+        </member>
+        <member name="P:LinCms.Entities.Selection.RiskAlert.RiskType">
+            <summary>
+            风险类型 (市场/财务/供应链/合规)
+            </summary>
+        </member>
+        <member name="P:LinCms.Entities.Selection.RiskAlert.Description">
+            <summary>
+            风险描述
+            </summary>
+        </member>
+        <member name="P:LinCms.Entities.Selection.RiskAlert.TriggerValue">
+            <summary>
+            触发值
+            </summary>
+        </member>
+        <member name="P:LinCms.Entities.Selection.RiskAlert.ThresholdValue">
+            <summary>
+            阈值
+            </summary>
+        </member>
+        <member name="P:LinCms.Entities.Selection.RiskAlert.Suggestions">
+            <summary>
+            建议措施
+            </summary>
+        </member>
+        <member name="P:LinCms.Entities.Selection.RiskAlert.DetectedAt">
+            <summary>
+            检测时间
+            </summary>
+        </member>
+        <member name="P:LinCms.Entities.Selection.RiskAlert.IsResolved">
+            <summary>
+            是否已处理
+            </summary>
+        </member>
+        <member name="P:LinCms.Entities.Selection.RiskAlert.ResolvedAt">
+            <summary>
+            处理时间
+            </summary>
+        </member>
+        <member name="P:LinCms.Entities.Selection.RiskAlert.ResolvedBy">
+            <summary>
+            处理人ID
+            </summary>
+        </member>
+        <member name="P:LinCms.Entities.Selection.RiskAlert.ResolveNotes">
+            <summary>
+            处理备注
+            </summary>
+        </member>
+        <member name="T:LinCms.Entities.Selection.StrategyExecution">
+            <summary>
+            策略执行记录表 - 存储每次策略执行的结果
+            </summary>
+        </member>
+        <member name="P:LinCms.Entities.Selection.StrategyExecution.Id">
+            <summary>
+            主键ID
+            </summary>
+        </member>
+        <member name="P:LinCms.Entities.Selection.StrategyExecution.ProductId">
+            <summary>
+            关联产品ID
+            </summary>
+        </member>
+        <member name="P:LinCms.Entities.Selection.StrategyExecution.StrategyCode">
+            <summary>
+            策略代码 (S01/S02/...)
+            </summary>
+        </member>
+        <member name="P:LinCms.Entities.Selection.StrategyExecution.StrategyName">
+            <summary>
+            策略名称
+            </summary>
+        </member>
+        <member name="P:LinCms.Entities.Selection.StrategyExecution.StrategyType">
+            <summary>
+            策略类型
+            </summary>
+        </member>
+        <member name="P:LinCms.Entities.Selection.StrategyExecution.Score">
+            <summary>
+            评分 (0-100)
+            </summary>
+        </member>
+        <member name="P:LinCms.Entities.Selection.StrategyExecution.Grade">
+            <summary>
+            等级 (GO/WAIT/STOP 或 A/B/C/D)
+            </summary>
+        </member>
+        <member name="P:LinCms.Entities.Selection.StrategyExecution.Decision">
+            <summary>
+            决策建议
+            </summary>
+        </member>
+        <member name="P:LinCms.Entities.Selection.StrategyExecution.Reason">
+            <summary>
+            判定理由
+            </summary>
+        </member>
+        <member name="P:LinCms.Entities.Selection.StrategyExecution.DetailJson">
+            <summary>
+            详细计算明细 (JSON)
+            </summary>
+        </member>
+        <member name="P:LinCms.Entities.Selection.StrategyExecution.SubResultsJson">
+            <summary>
+            子项结果 (JSON)
+            </summary>
+        </member>
+        <member name="P:LinCms.Entities.Selection.StrategyExecution.WarningsJson">
+            <summary>
+            警告列表 (JSON)
+            </summary>
+        </member>
+        <member name="P:LinCms.Entities.Selection.StrategyExecution.SuggestionsJson">
+            <summary>
+            建议列表 (JSON)
+            </summary>
+        </member>
+        <member name="P:LinCms.Entities.Selection.StrategyExecution.ExecutedAt">
+            <summary>
+            执行时间
+            </summary>
+        </member>
+        <member name="P:LinCms.Entities.Selection.StrategyExecution.ExecutedBy">
+            <summary>
+            执行人ID
+            </summary>
+        </member>
+        <member name="P:LinCms.Entities.Selection.StrategyExecution.ExecutionTimeMs">
+            <summary>
+            执行耗时 (毫秒)
+            </summary>
+        </member>
+        <member name="P:LinCms.Entities.Selection.StrategyExecution.IsLatest">
+            <summary>
+            是否最新记录
+            </summary>
+        </member>
+        <member name="T:LinCms.Entities.Selection.StrategyManualInput">
+            <summary>
+            手填型策略输入表 - 存储需要手动填写的策略数据(如40题自诊)
+            </summary>
+        </member>
+        <member name="P:LinCms.Entities.Selection.StrategyManualInput.Id">
+            <summary>
+            主键ID
+            </summary>
+        </member>
+        <member name="P:LinCms.Entities.Selection.StrategyManualInput.ProductId">
+            <summary>
+            关联产品ID
+            </summary>
+        </member>
+        <member name="P:LinCms.Entities.Selection.StrategyManualInput.StrategyCode">
+            <summary>
+            策略代码 (如S02)
+            </summary>
+        </member>
+        <member name="P:LinCms.Entities.Selection.StrategyManualInput.InputJson">
+            <summary>
+            完整输入数据 (JSON格式，如40题答案)
+            </summary>
+        </member>
+        <member name="P:LinCms.Entities.Selection.StrategyManualInput.ExecutionId">
+            <summary>
+            关联的执行记录ID
+            </summary>
+        </member>
+        <member name="P:LinCms.Entities.Selection.StrategyManualInput.SubmittedAt">
+            <summary>
+            提交时间
+            </summary>
+        </member>
+        <member name="P:LinCms.Entities.Selection.StrategyManualInput.SubmittedBy">
+            <summary>
+            提交人ID
+            </summary>
+        </member>
+        <member name="T:LinCms.Entities.Selection.StrategyRecommendation">
+            <summary>
+            策略推荐记录表 - S08 TOP20打法推荐使用
+            </summary>
+        </member>
+        <member name="P:LinCms.Entities.Selection.StrategyRecommendation.Id">
+            <summary>
+            主键ID
+            </summary>
+        </member>
+        <member name="P:LinCms.Entities.Selection.StrategyRecommendation.ProductId">
+            <summary>
+            关联产品ID
+            </summary>
+        </member>
+        <member name="P:LinCms.Entities.Selection.StrategyRecommendation.ExecutionId">
+            <summary>
+            关联策略执行ID
+            </summary>
+        </member>
+        <member name="P:LinCms.Entities.Selection.StrategyRecommendation.RecommendationCode">
+            <summary>
+            推荐代码 (T01/T02/...)
+            </summary>
+        </member>
+        <member name="P:LinCms.Entities.Selection.StrategyRecommendation.RecommendationName">
+            <summary>
+            推荐名称
+            </summary>
+        </member>
+        <member name="P:LinCms.Entities.Selection.StrategyRecommendation.RecommendationType">
+            <summary>
+            推荐类型 (关键词断层/差评优化/断货窗口等)
+            </summary>
+        </member>
+        <member name="P:LinCms.Entities.Selection.StrategyRecommendation.Priority">
+            <summary>
+            优先级 (高/中/低)
+            </summary>
+        </member>
+        <member name="P:LinCms.Entities.Selection.StrategyRecommendation.Description">
+            <summary>
+            推荐描述
+            </summary>
+        </member>
+        <member name="P:LinCms.Entities.Selection.StrategyRecommendation.ActionSteps">
+            <summary>
+            执行步骤 (JSON)
+            </summary>
+        </member>
+        <member name="P:LinCms.Entities.Selection.StrategyRecommendation.ExpectedImpact">
+            <summary>
+            预期效果
+            </summary>
+        </member>
+        <member name="P:LinCms.Entities.Selection.StrategyRecommendation.MatchScore">
+            <summary>
+            匹配度评分 (0-100)
+            </summary>
+        </member>
+        <member name="P:LinCms.Entities.Selection.StrategyRecommendation.RecommendedAt">
+            <summary>
+            推荐时间
+            </summary>
+        </member>
+        <member name="P:LinCms.Entities.Selection.StrategyRecommendation.IsAdopted">
+            <summary>
+            是否已采纳
+            </summary>
+        </member>
+        <member name="P:LinCms.Entities.Selection.StrategyRecommendation.AdoptedAt">
+            <summary>
+            采纳时间
+            </summary>
+        </member>
+        <member name="P:LinCms.Entities.Selection.StrategyRecommendation.AdoptedBy">
+            <summary>
+            采纳人ID
+            </summary>
+        </member>
+        <member name="P:LinCms.Entities.Selection.StrategyRecommendation.ExecutionNotes">
+            <summary>
+            执行备注
+            </summary>
+        </member>
+        <member name="T:LinCms.Entities.Selection.StrategyType">
+            <summary>
+            策略类型枚举
+            </summary>
+        </member>
+        <member name="F:LinCms.Entities.Selection.StrategyType.Scoring">
+            <summary>
+            评分型：输出0-100分 (S01/S05/S06/S07/S10/S11/S12/S16)
+            </summary>
+        </member>
+        <member name="F:LinCms.Entities.Selection.StrategyType.Decision">
+            <summary>
+            判定型：输出GO/WAIT/STOP (S02/S14)
+            </summary>
+        </member>
+        <member name="F:LinCms.Entities.Selection.StrategyType.Financial">
+            <summary>
+            财务型：输出ROI/利润率 (S03)
+            </summary>
+        </member>
+        <member name="F:LinCms.Entities.Selection.StrategyType.RiskDetection">
+            <summary>
+            风险型：输出风险列表 (S04)
+            </summary>
+        </member>
+        <member name="F:LinCms.Entities.Selection.StrategyType.Recommendation">
+            <summary>
+            推荐型：输出打法列表 (S08/S09/S17)
+            </summary>
+        </member>
+        <member name="F:LinCms.Entities.Selection.StrategyType.Detection">
+            <summary>
+            识别型：输出信号识别 (S13爆点识别)
+            </summary>
+        </member>
+        <member name="F:LinCms.Entities.Selection.StrategyType.Analysis">
+            <summary>
+            分析型：输出对比分析 (S15竞品分析)
+            </summary>
+        </member>
         <member name="T:LinCms.Entities.SerilogDO">
             <summary>
             Serilog数据库存储

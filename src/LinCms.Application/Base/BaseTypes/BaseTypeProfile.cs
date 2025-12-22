@@ -1,4 +1,4 @@
-﻿using AutoMapper;
+using AutoMapper;
 using LinCms.Entities.Base;
 
 namespace LinCms.Base.BaseTypes;

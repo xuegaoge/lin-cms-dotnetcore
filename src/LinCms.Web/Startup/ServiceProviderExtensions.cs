@@ -5,6 +5,7 @@ using AspNetCoreRateLimit;
 using IGeekFan.FreeKit.Extras.FreeSql;
 using LinCms.Entities;
 using LinCms.FreeSql;
+using LinCms.Utils;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Serilog;
@@ -53,7 +54,7 @@ public static class ServiceProviderExtensions
         //在运行时直接生成表结构,初始化数据
         try
         {
-            var allEntityTypes = ReflexHelper.GetTypesByTableAttribute(typeof(LinUser));
+            var allEntityTypes = LinCms.Utils.ReflexHelper.GetAllEntityTypes();
 
             fsql.CodeFirst.SeedData();
             fsql.CodeFirst.SyncStructure(allEntityTypes);

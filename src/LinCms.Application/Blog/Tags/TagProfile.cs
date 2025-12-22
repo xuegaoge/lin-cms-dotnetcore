@@ -1,4 +1,4 @@
-﻿using AutoMapper;
+using AutoMapper;
 using LinCms.Entities.Blog;
 
 namespace LinCms.Blog.Tags;

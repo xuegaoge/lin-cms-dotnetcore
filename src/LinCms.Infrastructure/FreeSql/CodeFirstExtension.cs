@@ -5,6 +5,7 @@ using LinCms.Common;
 using LinCms.Data.Enums;
 using LinCms.Entities;
 using LinCms.Entities.Base;
+using LinCms.Entities.Selection;
 
 namespace LinCms.FreeSql;
 
@@ -86,6 +87,17 @@ public static class CodeFirstExtension
                             new("2","保密",3,2,true){CreateTime=DateTime.Now,IsDeleted=false}
                         }
                     },
+                });
+            })
+            .Entity<GlobalConfig>(e =>
+            {
+                e.HasData(new List<GlobalConfig>()
+                {
+                    new() { Id = 1, ConfigGroup = "tax", ConfigKey = "us_vat_rate", ConfigValue = "0.00", Description = "美国销售税率(默认0)", IsActive = true },
+                    new() { Id = 2, ConfigGroup = "shipping", ConfigKey = "sea_freight_per_kg", ConfigValue = "1.5", Description = "海运单价($/kg)", IsActive = true },
+                    new() { Id = 3, ConfigGroup = "shipping", ConfigKey = "air_freight_per_kg", ConfigValue = "6.0", Description = "空运单价($/kg)", IsActive = true },
+                    new() { Id = 4, ConfigGroup = "commission", ConfigKey = "amazon_referral_fee_rate", ConfigValue = "0.15", Description = "亚马逊佣金比例(默认15%)", IsActive = true },
+                    new() { Id = 5, ConfigGroup = "exchange", ConfigKey = "usd_to_cny", ConfigValue = "7.2", Description = "美元对人民币汇率", IsActive = true }
                 });
             });
 

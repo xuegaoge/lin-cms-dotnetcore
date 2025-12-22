@@ -1,4 +1,4 @@
-﻿namespace LinCms.Cms.Account;
+namespace LinCms.Cms.Account;
 
 public class AccountContracts
 {

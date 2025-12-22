@@ -1,5 +1,52 @@
 # LinCMS .NET Core 后端开发指南
 
+---
+
+## ⭐ 选品分析系统 - 开发任务
+
+### 📁 共享设计文档位置
+
+**所有选品系统设计文档在**：`e:/work/选品管理/AI自动化的系统ING/详细设计/`
+
+| 文档 | 说明 |
+|-----|------|
+| **13_完整API接口契约.md** | ⭐ 55个API接口定义（最重要） |
+| 01_数据库表结构设计.md | 10张表DDL |
+| 01_补充_新增3张表.md | 新增表详情 |
+| 04_代码架构设计.md | 代码结构 |
+| 06_核心公式汇总.md | 18个公式 |
+| 07_完整策略清单.md | 18个策略 |
+| 16_前后端协作指南.md | 协作方式 |
+
+### 📋 任务进度文件
+
+**完成任务后必须更新**：`e:/work/选品管理/选品分析看板/TASK_PROGRESS.md`
+
+- 查看当前进度
+- 完成后更新状态为 ✅
+- 前端AI也会读取此文件了解后端进度
+
+### 🎯 选品系统开发任务
+
+**数据库（10张表）**：
+- global_config、enterprise_profile、product_data（52字段）
+- strategy_execution、strategy_manual_input、risk_alerts、strategy_recommendations
+- product_comparison、product_approval、product_metrics_history（新增3张）
+
+**策略（18个）**：S01-S18，详见 07_完整策略清单.md
+
+**API（55个）**：详见 13_完整API接口契约.md
+
+### ⚠️ 开发完成后
+
+**每完成一个功能，必须更新 TASK_PROGRESS.md！**
+
+---
+
+## 以下是 LinCMS 框架原有文档
+
+---
+
 ## 技术栈
 
 - **.NET 10.0** - 核心框架
@@ -51,7 +98,7 @@ test/LinCms.Test/             # 单元测试
 
 ### 环境要求
 - .NET 10.0 SDK
-- Visual Studio 2022 或 JetBrains Rider
+- Visual Studio 2026
 
 ### 构建与运行
 ```bash

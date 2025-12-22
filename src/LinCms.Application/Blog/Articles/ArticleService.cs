@@ -1,4 +1,4 @@
-﻿using AutoMapper;
+using AutoMapper;
 using IGeekFan.FreeKit.Extras.Dto;
 using IGeekFan.FreeKit.Extras.FreeSql;
 using LinCms.Blog.Classifys;

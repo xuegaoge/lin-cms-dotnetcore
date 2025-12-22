@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using AutoMapper;
 using FreeSql;
 using IGeekFan.FreeKit.Extras.Security;

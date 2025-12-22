@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Threading.Tasks;
 using IGeekFan.FreeKit.Extras.FreeSql;
 using LinCms.Entities.Blog;
