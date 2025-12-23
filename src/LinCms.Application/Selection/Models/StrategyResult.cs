@@ -86,7 +86,7 @@ namespace LinCms.Application.Selection.Models
         /// <summary>
         /// 建议列表
         /// </summary>
-        public List<string> Suggestions { get; set; } = new List<string>();
+        public List<object> Suggestions { get; set; } = new List<object>();
 
         // === 风险型结果 ===
         /// <summary>

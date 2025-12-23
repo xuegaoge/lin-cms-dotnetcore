@@ -33,8 +33,10 @@ namespace LinCms.Application.Selection.Config
             public static class MarketLayer
             {
                 public static readonly int[] SearchVolumeGrades = { 10000, 20000, 50000, 100000 };
-                public static readonly decimal[] GrowthRateGrades = { 0.05m, 0.10m, 0.15m, 0.30m };
-                public static readonly decimal[] ConcentrationGrades = { 0.20m, 0.15m, 0.10m, 0.05m };
+                // 注意：SearchGrowthRate 存储的是百分比值（8.3 代表 8.3%），阈值也使用百分比值
+                public static readonly decimal[] GrowthRateGrades = { 5m, 10m, 15m, 30m };
+                // 头部集中度阈值（越低越好）：≤60%得2分, ≤45%得4分, ≤30%得6分, ≤15%得8分, <15%得10分
+                public static readonly decimal[] ConcentrationGrades = { 0.60m, 0.45m, 0.30m, 0.15m };
             }
 
             // P层指标评分阈值
@@ -132,8 +134,8 @@ namespace LinCms.Application.Selection.Config
             // 毛利率分级
             public static readonly decimal[] MarginGrades = { 0.20m, 0.25m, 0.35m, 0.45m };
 
-            // 增长率分级
-            public static readonly decimal[] GrowthGrades = { 0.05m, 0.10m, 0.20m, 0.30m };
+            // 增长率分级 - 注意：SearchGrowthRate 存储的是百分比值
+            public static readonly decimal[] GrowthGrades = { 5m, 10m, 20m, 30m };
 
             // 热度等级对应分数
             public const int ExtremeHotScore = 85;

@@ -240,12 +240,8 @@ namespace LinCms.Application.Selection.Strategies.Implementations
                    baseData = wfBaseData,
                    amountData = wfAmountData
                 },
-                Tornado = new
-                {
-                    categories = new[] { "售价变动", "采购成本", "运费波动", "广告CPC", "转化率" },
-                    posData = new[] { 15, -10, -5, -8, 12 }, // 模拟敏感性分析数据
-                    negData = new[] { -20, 8, 4, 6, -15 }
-                }
+                Tornado = CalculateSensitivityAnalysis(revenue, purchaseCost, shippingCost, fbaCost, 
+                    commission, adCost, returnLoss, netProfit, cpc, conversionRate)
             };
 
             try 
@@ -258,6 +254,61 @@ namespace LinCms.Application.Selection.Strategies.Implementations
             }
 
             return result;
+        }
+
+        /// <summary>
+        /// 计算敏感性分析 - 模拟各参数变化对利润的影响
+        /// 用于Tornado图展示
+        /// </summary>
+        private object CalculateSensitivityAnalysis(
+            decimal revenue, decimal purchaseCost, decimal shippingCost, decimal fbaCost,
+            decimal commission, decimal adCost, decimal returnLoss, decimal baseProfit,
+            decimal cpc, decimal conversionRate)
+        {
+            // 基准利润
+            if (baseProfit == 0) baseProfit = 1; // 防止除零
+            
+            // 计算各因素变化对利润的影响百分比
+            // 正向变化表示利润增加，负向变化表示利润减少
+            
+            // 1. 售价变化 ±10%
+            var priceUp = revenue * 0.10m; // 售价上升10%，利润增加
+            var priceDown = -revenue * 0.10m; // 售价下降10%，利润减少
+            var priceUpPct = baseProfit != 0 ? (int)(priceUp / Math.Abs(baseProfit) * 100) : 0;
+            var priceDownPct = baseProfit != 0 ? (int)(priceDown / Math.Abs(baseProfit) * 100) : 0;
+            
+            // 2. 采购成本变化 ±10%
+            var purchaseUp = -purchaseCost * 0.10m; // 成本上升10%，利润减少
+            var purchaseDown = purchaseCost * 0.10m; // 成本下降10%，利润增加
+            var purchaseUpPct = baseProfit != 0 ? (int)(purchaseUp / Math.Abs(baseProfit) * 100) : 0;
+            var purchaseDownPct = baseProfit != 0 ? (int)(purchaseDown / Math.Abs(baseProfit) * 100) : 0;
+            
+            // 3. 运费变化 ±20%
+            var shippingUp = -shippingCost * 0.20m;
+            var shippingDown = shippingCost * 0.20m;
+            var shippingUpPct = baseProfit != 0 ? (int)(shippingUp / Math.Abs(baseProfit) * 100) : 0;
+            var shippingDownPct = baseProfit != 0 ? (int)(shippingDown / Math.Abs(baseProfit) * 100) : 0;
+            
+            // 4. CPC变化 ±30% (影响广告成本)
+            var newAdCostUp = conversionRate > 0 ? (cpc * 1.3m) / conversionRate : 0;
+            var newAdCostDown = conversionRate > 0 ? (cpc * 0.7m) / conversionRate : 0;
+            var cpcUpPct = baseProfit != 0 ? (int)(-(newAdCostUp - adCost) / Math.Abs(baseProfit) * 100) : 0;
+            var cpcDownPct = baseProfit != 0 ? (int)(-(newAdCostDown - adCost) / Math.Abs(baseProfit) * 100) : 0;
+            
+            // 5. 转化率变化 ±20% (影响广告成本)
+            var newAdCostCvrUp = (conversionRate * 1.2m) > 0 ? cpc / (conversionRate * 1.2m) : 0;
+            var newAdCostCvrDown = (conversionRate * 0.8m) > 0 ? cpc / (conversionRate * 0.8m) : 0;
+            var cvrUpPct = baseProfit != 0 ? (int)(-(newAdCostCvrUp - adCost) / Math.Abs(baseProfit) * 100) : 0;
+            var cvrDownPct = baseProfit != 0 ? (int)(-(newAdCostCvrDown - adCost) / Math.Abs(baseProfit) * 100) : 0;
+
+            return new
+            {
+                categories = new[] { "售价±10%", "采购成本±10%", "运费±20%", "CPC±30%", "转化率±20%" },
+                // posData: 正向变化(对利润有利的变化)
+                posData = new[] { priceUpPct, purchaseDownPct, shippingDownPct, cpcDownPct, cvrUpPct },
+                // negData: 负向变化(对利润不利的变化)
+                negData = new[] { priceDownPct, purchaseUpPct, shippingUpPct, cpcUpPct, cvrDownPct }
+            };
         }
     }
 }

@@ -25,7 +25,7 @@ namespace LinCms.Application.Contracts.Selection
         public object DetailJson { get; set; }
         public List<SubResultDto> SubResults { get; set; }
         public List<string> Warnings { get; set; }
-        public List<string> Suggestions { get; set; }
+        public List<object> Suggestions { get; set; }
 
         // 执行元数据
         public DateTime ExecutedAt { get; set; }
@@ -49,7 +49,7 @@ namespace LinCms.Application.Contracts.Selection
         public object DetailJson { get; set; }
         public List<SubResultDto> SubResults { get; set; }
         public List<string> Warnings { get; set; }
-        public List<string> Suggestions { get; set; }
+        public List<object> Suggestions { get; set; }
         public DateTime ExecutedAt { get; set; }
         public long ExecutionTimeMs { get; set; }
     }

@@ -119,6 +119,7 @@ namespace LinCms.Application.Selection.Services
         {
             var list = await _executionRepository.Select
                 .Where(e => e.ProductId == productId)
+                .Where(e => e.IsLatest == true) // 只返回每个策略的最新记录
                 .WhereIf(!string.IsNullOrEmpty(strategyCode), e => e.StrategyCode == strategyCode)
                 .OrderByDescending(e => e.ExecutedAt)
                 .Page(page, size)
@@ -151,28 +152,34 @@ namespace LinCms.Application.Selection.Services
         /// </summary>
         public async Task<StrategyResultDto> SubmitSelfDiagnosisAsync(SelfDiagnosisSubmitDto dto)
         {
-            // TODO: 实现S02策略后完善此方法
-            // 临时实现：保存答案到StrategyManualInput表
             var product = await _productRepository.Select.Where(p => p.Id == dto.ProductId).FirstAsync();
             if (product == null) throw new Exception("产品不存在");
 
+            // 计算得分（基于用户手动填写的答案）
             var passCount = dto.Answers.Values.Count(v => v);
             var totalCount = dto.Answers.Count;
             var passRate = (decimal)passCount / totalCount;
+            var score = passRate * 1000; // 1000分制
 
             var result = new StrategyResult
             {
                 StrategyCode = "S02",
                 StrategyName = "40题自诊系统",
                 Type = StrategyType.Decision,
-                Score = passRate * 100,
-                Grade = passRate >= 0.8m ? "A" : passRate >= 0.6m ? "B" : passRate >= 0.4m ? "C" : "D",
-                Decision = passRate >= 0.6m ? "GO" : "WAIT",
-                Reason = $"通过率: {passRate:P0} ({passCount}/{totalCount}题通过)",
+                Score = score,
+                Grade = score >= 800 ? "A" : score >= 600 ? "B" : score >= 400 ? "C" : "D",
+                Decision = score >= 800 ? "GO" : score >= 600 ? "WAIT" : "STOP",
+                Reason = $"手动诊断: {score:F0}/1000分 ({passCount}/{totalCount}题通过)",
                 ExecutionTimeMs = 50
             };
 
-            // 保存执行记录
+            // 先将该产品该策略的旧记录设为非最新
+            await _executionRepository.UpdateDiy
+                .Set(e => e.IsLatest, false)
+                .Where(e => e.ProductId == dto.ProductId && e.StrategyCode == "S02")
+                .ExecuteAffrowsAsync();
+
+            // 保存执行记录（包含用户手动填写的答案）
             var execution = new StrategyExecution
             {
                 ProductId = dto.ProductId,
@@ -185,7 +192,14 @@ namespace LinCms.Application.Selection.Services
                 Reason = result.Reason,
                 ExecutedAt = DateTime.Now,
                 ExecutionTimeMs = (int)result.ExecutionTimeMs,
-                DetailJson = System.Text.Json.JsonSerializer.Serialize(new { answers = dto.Answers, result }),
+                DetailJson = System.Text.Json.JsonSerializer.Serialize(new 
+                { 
+                    answers = dto.Answers, 
+                    manualSubmit = true,
+                    passCount = passCount,
+                    totalCount = totalCount,
+                    score = score
+                }),
                 IsLatest = true
             };
 

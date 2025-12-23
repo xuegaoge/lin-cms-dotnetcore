@@ -185,82 +185,191 @@ namespace LinCms.Application.Selection.Strategies.Implementations
 
         protected override StrategyResult ExecuteCore(ProductData product, ExecutionContext context)
         {
-            var innovations = new List<string>();
-            var score = 0m;
+            // 6大创新方向评估
+            var innovationDimensions = new List<(string direction, decimal score, List<string> tactics, string trigger)>();
+            
+            // 计算毛利率
+            var margin = product.TargetPrice > 0 
+                ? (product.TargetPrice - product.PurchaseCost) / product.TargetPrice 
+                : 0;
 
-            // 1. 产品创新
+            // 1. 产品创新 (权重25%)
+            var productScore = 0m;
+            var productTactics = new List<string>();
             if (product.DifferentiationPoints < 5)
             {
-                innovations.Add("产品创新: 功能升级-增加智能化/多功能设计");
-                innovations.Add("产品创新: 材质改进-使用环保/高端材料");
-                innovations.Add("产品创新: 包装创新-礼盒装/便携设计");
-                score += 15;
-            }
-
-            // 2. 定价创新
-            var margin = (product.TargetPrice - product.PurchaseCost) / product.TargetPrice;
-            if (margin >= 0.3m)
-            {
-                innovations.Add("定价创新: 高端定位-提升品牌溢价");
-                innovations.Add("定价创新: 会员制-订阅模式");
-                score += 12;
+                productScore = 85;
+                productTactics.Add("功能升级: 增加智能化/多功能设计");
+                productTactics.Add("材质改进: 使用环保/高端材料");
+                if (product.AverageRating < 4.2m)
+                    productTactics.Add("质量提升: 解决竞品差评痛点");
             }
             else
             {
-                innovations.Add("定价创新: 性价比-走量策略");
-                score += 8;
+                productScore = 50;
+                productTactics.Add("保持现有差异化优势");
             }
+            innovationDimensions.Add(("产品创新", productScore, productTactics, 
+                product.DifferentiationPoints < 5 ? "差异化不足" : "差异化良好"));
 
-            // 3. 组合创新
+            // 2. 定价创新 (权重15%)
+            var priceScore = 0m;
+            var priceTactics = new List<string>();
+            if (margin >= 0.40m)
+            {
+                priceScore = 90;
+                priceTactics.Add("高端定位: 提升品牌溢价空间");
+                priceTactics.Add("会员制: 订阅模式锁定复购");
+            }
+            else if (margin >= 0.25m)
+            {
+                priceScore = 70;
+                priceTactics.Add("价值定位: 强调性价比");
+                priceTactics.Add("捆绑销售: 提升客单价");
+            }
+            else
+            {
+                priceScore = 40;
+                priceTactics.Add("成本优化: 需先改善毛利空间");
+            }
+            innovationDimensions.Add(("定价创新", priceScore, priceTactics, 
+                $"毛利率{margin:P0}"));
+
+            // 3. 组合创新 (权重15%)
+            var comboScore = 0m;
+            var comboTactics = new List<string>();
             if (product.VariantCount < 5)
             {
-                innovations.Add("组合创新: 套装销售-主品+配件");
-                innovations.Add("组合创新: 多规格-满足不同需求");
-                score += 13;
-            }
-
-            // 4. 渠道创新
-            innovations.Add("渠道创新: 多站点布局-欧洲/日本站");
-            innovations.Add("渠道创新: 自建站-品牌独立站");
-            score += 10;
-
-            // 5. 营销创新
-            if (product.AverageRating >= 4.3m)
-            {
-                innovations.Add("营销创新: KOL合作-红人带货");
-                innovations.Add("营销创新: 视频营销-短视频种草");
-                score += 14;
+                comboScore = 85;
+                comboTactics.Add("套装销售: 主品+配件捆绑");
+                comboTactics.Add("多规格: 满足不同用户需求");
+                comboTactics.Add("颜色扩展: 增加热门色系");
             }
             else
             {
-                innovations.Add("营销创新: 内容营销-图文优化");
-                score += 8;
+                comboScore = 60;
+                comboTactics.Add("变体优化: 保留热销款");
             }
+            innovationDimensions.Add(("组合创新", comboScore, comboTactics, 
+                $"当前{product.VariantCount}个变体"));
 
-            // 6. 供应链创新
+            // 4. 渠道创新 (权重15%)
+            var channelScore = 70m;
+            var channelTactics = new List<string>
+            {
+                "多站点布局: 欧洲/日本/中东站",
+                "自建站: 品牌独立站DTC"
+            };
+            if (product.TopConcentration > 0.6m)
+            {
+                channelScore = 85;
+                channelTactics.Add("蓝海站点: 避开主站激烈竞争");
+            }
+            innovationDimensions.Add(("渠道创新", channelScore, channelTactics, 
+                "渠道多元化"));
+
+            // 5. 营销创新 (权重20%)
+            var marketingScore = 0m;
+            var marketingTactics = new List<string>();
+            if (product.AverageRating >= 4.3m && product.TotalReviews >= 50)
+            {
+                marketingScore = 90;
+                marketingTactics.Add("KOL合作: 红人带货推广");
+                marketingTactics.Add("视频营销: TikTok/YouTube种草");
+                marketingTactics.Add("UGC内容: 鼓励用户晒单");
+            }
+            else if (product.AverageRating >= 4.0m)
+            {
+                marketingScore = 70;
+                marketingTactics.Add("内容营销: A+页面优化");
+                marketingTactics.Add("广告优化: 精准关键词投放");
+            }
+            else
+            {
+                marketingScore = 50;
+                marketingTactics.Add("评价改善: 优先提升产品质量");
+            }
+            innovationDimensions.Add(("营销创新", marketingScore, marketingTactics, 
+                $"评分{product.AverageRating}星"));
+
+            // 6. 供应链创新 (权重10%)
+            var supplyScore = 0m;
+            var supplyTactics = new List<string>();
             if (product.LeadTimeDays > 30)
             {
-                innovations.Add("供应链创新: 快反供应链-缩短交期");
-                innovations.Add("供应链创新: 海外仓-本地化发货");
-                score += 11;
+                supplyScore = 85;
+                supplyTactics.Add("快反供应链: 缩短交期至15天内");
+                supplyTactics.Add("海外仓: 本地化发货提升时效");
             }
+            else if (product.LeadTimeDays > 15)
+            {
+                supplyScore = 70;
+                supplyTactics.Add("备货策略: 提前备货应对旺季");
+            }
+            else
+            {
+                supplyScore = 60;
+                supplyTactics.Add("供应链稳定: 保持现有优势");
+            }
+            innovationDimensions.Add(("供应链创新", supplyScore, supplyTactics, 
+                $"交期{product.LeadTimeDays}天"));
+
+            // 计算综合得分 (加权平均)
+            var weights = new[] { 0.25m, 0.15m, 0.15m, 0.15m, 0.20m, 0.10m };
+            var totalScore = 0m;
+            for (int i = 0; i < innovationDimensions.Count && i < weights.Length; i++)
+            {
+                totalScore += innovationDimensions[i].score * weights[i];
+            }
+
+            // 收集所有推荐的策略
+            var allTactics = innovationDimensions
+                .SelectMany(d => d.tactics.Select(t => $"[{d.direction}] {t}"))
+                .ToList();
+
+            // 高分方向
+            var topDirections = innovationDimensions
+                .Where(d => d.score >= 80)
+                .OrderByDescending(d => d.score)
+                .Select(d => d.direction)
+                .ToList();
+
+            // SubResults
+            var subResults = innovationDimensions.Select((d, i) => new SubResult
+            {
+                Name = d.direction,
+                Score = d.score,
+                Weight = i < weights.Length ? weights[i] : 0.1m,
+                WeightedScore = d.score * (i < weights.Length ? weights[i] : 0.1m),
+                Description = $"{d.trigger} → {d.tactics.Count}个打法"
+            }).ToList();
 
             var result = new StrategyResult
             {
                 StrategyCode = Code,
                 StrategyName = Name,
                 Type = Type,
-                Score = Math.Min(score, 100),
-                Grade = GetGrade(score),
-                Decision = innovations.Count >= 8 ? "GO" : "WAIT",
-                Reason = $"推荐{innovations.Count}个创新方向",
-                Suggestions = innovations,
+                Score = Math.Round(totalScore, 1),
+                Grade = GetGrade(totalScore),
+                Decision = topDirections.Count >= 3 ? "GO" : topDirections.Count >= 1 ? "WAIT" : "STOP",
+                Reason = topDirections.Count > 0 
+                    ? $"重点方向: {string.Join("、", topDirections.Take(3))} (共{allTactics.Count}个打法)"
+                    : "创新空间有限",
+                SubResults = subResults,
+                Suggestions = allTactics.Take(10).Cast<object>().ToList(),
                 DetailJson = Newtonsoft.Json.JsonConvert.SerializeObject(new
                 {
-                    Score = Math.Min(score, 100),
-                    Grade = GetGrade(score),
-                    Reason = $"推荐{innovations.Count}个创新方向",
-                    Suggestions = innovations
+                    TotalScore = Math.Round(totalScore, 1),
+                    TopDirections = topDirections,
+                    Dimensions = innovationDimensions.Select(d => new 
+                    { 
+                        d.direction, 
+                        d.score, 
+                        d.trigger, 
+                        TacticCount = d.tactics.Count,
+                        Tactics = d.tactics 
+                    }),
+                    AllTactics = allTactics
                 })
             };
 

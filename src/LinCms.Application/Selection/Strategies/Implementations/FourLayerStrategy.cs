@@ -105,7 +105,7 @@ namespace LinCms.Application.Selection.Strategies.Implementations
                 Name = "月搜索量",
                 RawValue = product.MonthlySearchVolume,
                 Score = searchScore,
-                Weight = 0.20m
+                Weight = 0.18m
             });
 
             // M02: 增长率
@@ -117,7 +117,7 @@ namespace LinCms.Application.Selection.Strategies.Implementations
                 Name = "搜索增长率",
                 RawValue = product.SearchGrowthRate,
                 Score = growthScore,
-                Weight = 0.15m
+                Weight = 0.14m
             });
 
             // M03: 竞争度（越低越好）
@@ -129,7 +129,76 @@ namespace LinCms.Application.Selection.Strategies.Implementations
                 Name = "头部集中度",
                 RawValue = product.TopConcentration,
                 Score = concentrationScore,
-                Weight = 0.15m
+                Weight = 0.12m
+            });
+
+            // M04: 竞品数量（越少越好）
+            var compScore = product.CompetitorCount < 100 ? 90 :
+                           product.CompetitorCount < 300 ? 75 :
+                           product.CompetitorCount < 500 ? 60 : 40;
+            indicators.Add(new Indicator
+            {
+                Code = "M04",
+                Name = "竞品数量",
+                RawValue = product.CompetitorCount,
+                Score = compScore,
+                Weight = 0.12m
+            });
+
+            // M05: 新品占比（越高越友好）
+            var newProductScore = product.NewProductRatio >= 0.30m ? 90 :
+                                  product.NewProductRatio >= 0.20m ? 75 :
+                                  product.NewProductRatio >= 0.10m ? 60 : 40;
+            indicators.Add(new Indicator
+            {
+                Code = "M05",
+                Name = "新品友好度",
+                RawValue = product.NewProductRatio,
+                Score = newProductScore,
+                Weight = 0.12m
+            });
+
+            // M06: 季节性（越低越稳定）
+            var seasonScore = product.Seasonality < 0.3m ? 90 :
+                             product.Seasonality < 0.5m ? 75 :
+                             product.Seasonality < 0.7m ? 60 : 40;
+            indicators.Add(new Indicator
+            {
+                Code = "M06",
+                Name = "季节性风险",
+                RawValue = product.Seasonality,
+                Score = seasonScore,
+                Weight = 0.10m
+            });
+
+            // M07: 政策风险（越低越好）
+            var policyScore = product.PolicyRisk < 0.3m ? 90 :
+                             product.PolicyRisk < 0.5m ? 70 :
+                             product.PolicyRisk < 0.7m ? 50 : 20;
+            indicators.Add(new Indicator
+            {
+                Code = "M07",
+                Name = "政策风险",
+                RawValue = product.PolicyRisk,
+                Score = policyScore,
+                Weight = 0.10m
+            });
+
+            // M08: SPR供需比（行业核心指标）
+            var spr = product.CompetitorCount > 0 
+                ? (decimal)(product.MonthlySearchVolume ?? 0) / product.CompetitorCount * 1000 
+                : 0;
+            var sprScore = spr >= 300 ? 90 :   // 蓝海
+                          spr >= 200 ? 75 :
+                          spr >= 100 ? 60 :
+                          spr >= 50 ? 45 : 30; // 红海
+            indicators.Add(new Indicator
+            {
+                Code = "M08",
+                Name = "供需比SPR",
+                RawValue = spr,
+                Score = sprScore,
+                Weight = 0.12m
             });
 
             var totalScore = 0m;

@@ -253,8 +253,9 @@ namespace LinCms.Application.Selection.Strategies.Implementations
 
         private void CheckComplianceRisks(ProductData product, StrategyResult result, ref int riskCount, ref int highRiskCount)
         {
-            // R31: 侵权风险
-            if (product.InfringementRisk == "高")
+            // R31: 侵权风险 - 同时支持中文和英文格式
+            var infringementRisk = (product.InfringementRisk ?? "").ToLower();
+            if (infringementRisk == "高" || infringementRisk == "high")
             {
                 result.RiskAlerts.Add(new RiskAlertItem
                 {
