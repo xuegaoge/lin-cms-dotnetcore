@@ -109,6 +109,7 @@ dotnet restore
 dotnet build
 
 # 开发模式运行（热重载）
+dotnet watch run --project src/LinCms.Web/LinCms.Web.csproj
 dotnet run --project src/LinCms.Web
 
 # 使用特定配置文件
