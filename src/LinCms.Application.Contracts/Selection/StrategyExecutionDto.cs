@@ -118,8 +118,11 @@ namespace LinCms.Application.Contracts.Selection
     /// </summary>
     public class SelfDiagnosisSubmitDto
     {
+        [JsonProperty("product_id")]
         public long ProductId { get; set; }
-        public Dictionary<string, bool> Answers { get; set; }
+
+        [JsonProperty("answers")]
+        public Dictionary<string, int?> Answers { get; set; }
     }
 
     /// <summary>

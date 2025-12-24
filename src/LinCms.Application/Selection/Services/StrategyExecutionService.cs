@@ -49,7 +49,7 @@ namespace LinCms.Application.Selection.Services
             }).ToList();
         }
 
-        public async Task<StrategyResultDto> ExecuteStrategyAsync(string code, long productId)
+        public async Task<StrategyResultDto> ExecuteStrategyAsync(string code, long productId, Dictionary<string, int?> manualAnswers = null)
         {
             var strategy = _registry.Get(code);
             if (strategy == null) throw new Exception($"策略不存在: {code}");

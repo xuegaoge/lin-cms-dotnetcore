@@ -1,4 +1,5 @@
 using LinCms.Entities.Selection;
+using System.Collections.Generic;
 
 namespace LinCms.Application.Selection.Models
 {
@@ -26,5 +27,10 @@ namespace LinCms.Application.Selection.Models
         /// 执行人ID
         /// </summary>
         public long? ExecutedBy { get; set; }
+
+        /// <summary>
+        /// 用户手动填写的答案（用于自诊等策略）
+        /// </summary>
+        public Dictionary<string, int?> ManualAnswers { get; set; }
     }
 }
