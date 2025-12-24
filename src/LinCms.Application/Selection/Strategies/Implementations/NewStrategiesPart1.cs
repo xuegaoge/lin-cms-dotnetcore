@@ -36,10 +36,15 @@ namespace LinCms.Application.Selection.Strategies.Implementations
         {
             // ========================================
             // 按设计文档实现40题自诊系统
-            // 26题可自动判断(基于product_data字段)
-            // 14题需要手填(暂时标记为待填)
+            // 优先使用手动答案，如果没有则使用自动判断
             // 评分: 每题25分，满分1000分
             // ========================================
+            
+            // 如果有手动答案，直接使用手动答案计算
+            if (context?.ManualAnswers != null && context.ManualAnswers.Any())
+            {
+                return CalculateFromManualAnswers(context.ManualAnswers);
+            }
             
             var questions = new List<(string code, string question, bool passed, string category, string source)>();
             
@@ -297,6 +302,171 @@ namespace LinCms.Application.Selection.Strategies.Implementations
                     AutoFilledCount = autoQuestions.Count,
                     AutoPassCount = autoPassCount,
                     ManualPendingCount = manualQuestions.Count
+                })
+            };
+        }
+
+        /// <summary>
+        /// 基于手动答案计算结果
+        /// </summary>
+        private StrategyResult CalculateFromManualAnswers(Dictionary<string, int?> manualAnswers)
+        {
+            // 计算总分：每个答案的分数直接求和
+            var totalScore = manualAnswers.Values.Where(v => v.HasValue).Sum(v => v.Value);
+            
+            // 红线熔断机制检查
+            var killerQuestions = new[] { "Q11", "Q12", "Q22", "Q37", "Q38", "Q40" };
+            var triggeredKillers = killerQuestions
+                .Where(q => manualAnswers.ContainsKey(q) && manualAnswers[q] == 0)
+                .ToList();
+            
+            string decision;
+            string grade;
+            var subResults = new List<SubResult>();
+            
+            if (triggeredKillers.Any())
+            {
+                // 触发红线
+                decision = "STOP";
+                grade = "D";
+                
+                // 添加红线触发信息
+                var killerMessages = new Dictionary<string, string>
+                {
+                    ["Q11"] = "FBM毛利极低",
+                    ["Q12"] = "FBA毛利极低", 
+                    ["Q22"] = "存在专利风险",
+                    ["Q37"] = "存在IP风险",
+                    ["Q38"] = "政策不合规",
+                    ["Q40"] = "价值主张缺陷"
+                };
+                
+                foreach (var killer in triggeredKillers)
+                {
+                    subResults.Add(new SubResult
+                    {
+                        Name = "红线触发",
+                        Description = $"触犯红线: {killerMessages.GetValueOrDefault(killer, killer)}",
+                        Score = 0,
+                        WeightedScore = 0
+                    });
+                }
+            }
+            else
+            {
+                // 正常分数判定
+                if (totalScore >= 800)
+                {
+                    decision = "GO";
+                    grade = "A";
+                }
+                else if (totalScore >= 600)
+                {
+                    decision = "WAIT";
+                    grade = "B";
+                }
+                else
+                {
+                    decision = "STOP";
+                    grade = "C";
+                }
+            }
+            
+            // 按分组统计分数
+            var groupScores = new Dictionary<string, (int score, int maxScore)>
+            {
+                ["生命周期与趋势"] = (0, 250),
+                ["产品属性与利润"] = (0, 250),
+                ["类目竞争环境"] = (0, 250),
+                ["供应链与合规"] = (0, 250)
+            };
+            
+            // Q1-Q10: 生命周期与趋势
+            for (int i = 1; i <= 10; i++)
+            {
+                var key = $"Q{i}";
+                if (manualAnswers.ContainsKey(key) && manualAnswers[key].HasValue)
+                {
+                    groupScores["生命周期与趋势"] = (groupScores["生命周期与趋势"].score + manualAnswers[key].Value, 250);
+                }
+            }
+            
+            // Q11-Q20: 产品属性与利润
+            for (int i = 11; i <= 20; i++)
+            {
+                var key = $"Q{i}";
+                if (manualAnswers.ContainsKey(key) && manualAnswers[key].HasValue)
+                {
+                    groupScores["产品属性与利润"] = (groupScores["产品属性与利润"].score + manualAnswers[key].Value, 250);
+                }
+            }
+            
+            // Q21-Q30: 类目竞争环境
+            for (int i = 21; i <= 30; i++)
+            {
+                var key = $"Q{i}";
+                if (manualAnswers.ContainsKey(key) && manualAnswers[key].HasValue)
+                {
+                    groupScores["类目竞争环境"] = (groupScores["类目竞争环境"].score + manualAnswers[key].Value, 250);
+                }
+            }
+            
+            // Q31-Q40: 供应链与合规
+            for (int i = 31; i <= 40; i++)
+            {
+                var key = $"Q{i}";
+                if (manualAnswers.ContainsKey(key) && manualAnswers[key].HasValue)
+                {
+                    groupScores["供应链与合规"] = (groupScores["供应链与合规"].score + manualAnswers[key].Value, 250);
+                }
+            }
+            
+            // 添加分组结果
+            foreach (var group in groupScores)
+            {
+                subResults.Add(new SubResult
+                {
+                    Name = group.Key,
+                    Score = group.Value.score,
+                    Weight = 0.25m,
+                    WeightedScore = group.Value.score,
+                    Description = $"{group.Value.score}/{group.Value.maxScore}分"
+                });
+            }
+            
+            var answeredCount = manualAnswers.Values.Count(v => v.HasValue);
+            
+            return new StrategyResult
+            {
+                StrategyCode = Code,
+                StrategyName = Name,
+                Type = Type,
+                Score = totalScore,
+                Grade = grade,
+                Decision = decision,
+                Reason = triggeredKillers.Any() 
+                    ? $"触犯红线: {string.Join("、", triggeredKillers.Select(k => new Dictionary<string, string>
+                        {
+                            ["Q11"] = "FBM毛利极低",
+                            ["Q12"] = "FBA毛利极低", 
+                            ["Q22"] = "存在专利风险",
+                            ["Q37"] = "存在IP风险",
+                            ["Q38"] = "政策不合规",
+                            ["Q40"] = "价值主张缺陷"
+                        }.GetValueOrDefault(k, k)))}"
+                    : $"手动诊断得分: {totalScore}/1000分 (已回答{answeredCount}/40题)",
+                SubResults = subResults,
+                Warnings = totalScore < 600 && !triggeredKillers.Any() 
+                    ? new List<string> { "得分偏低，建议重新评估产品可行性" } 
+                    : new List<string>(),
+                Suggestions = new List<object>(),
+                DetailJson = Newtonsoft.Json.JsonConvert.SerializeObject(new 
+                { 
+                    answers = manualAnswers,
+                    totalScore = totalScore,
+                    answeredCount = answeredCount,
+                    triggeredKillers = triggeredKillers,
+                    manualSubmit = true
                 })
             };
         }
