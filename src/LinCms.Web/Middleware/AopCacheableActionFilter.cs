@@ -13,9 +13,18 @@ using Newtonsoft.Json.Serialization;
 
 namespace LinCms.Middleware;
 
-public class AopCacheableActionFilter(IConfiguration configuration, IRedisClient redisClient) : IAsyncActionFilter
+public class AopCacheableActionFilter : IAsyncActionFilter
 {
-    private readonly int _expireSeconds = int.Parse((string) configuration["Cache:ExpireSeconds"].ToString());
+    private readonly IConfiguration _configuration;
+    private readonly IRedisClient? _redisClient;
+    private readonly int _expireSeconds;
+
+    public AopCacheableActionFilter(IConfiguration configuration, IRedisClient? redisClient = null)
+    {
+        _configuration = configuration;
+        _redisClient = redisClient;
+        _expireSeconds = int.Parse((string)configuration["Cache:ExpireSeconds"].ToString());
+    }
 
     /// <summary>
     /// 尝试从方法中获取当前的工作单元配置
@@ -52,55 +61,52 @@ public class AopCacheableActionFilter(IConfiguration configuration, IRedisClient
             return;
         }
 
-        string cacheKey = GenerateCacheKey(cacheAttr.CacheKey, context);
-        string cacheValue = await redisClient.GetAsync(cacheKey);
-        if (cacheValue != null)
+        if (_redisClient == null)
         {
-            context.Result = new JsonResult(JsonConvert.DeserializeObject(cacheValue));
+            // 如果没有Redis，直接执行方法
+            await next();
             return;
         }
-        ActionExecutedContext result = await next();
 
-        if (result.Exception == null || result.ExceptionHandled)
+        string cacheKey = GenerateCacheKey(cacheAttr.CacheKey, context);
+        string cacheValue = await _redisClient.GetAsync(cacheKey);
+        if (cacheValue != null)
         {
-            if (result.Result is ObjectResult ob)
+            var result = JsonConvert.DeserializeObject(cacheValue, new JsonSerializerSettings
             {
-                DefaultContractResolver contractResolver = new DefaultContractResolver
-                {
-                    NamingStrategy = new SnakeCaseNamingStrategy()
-                };
+                ContractResolver = new CamelCasePropertyNamesContractResolver()
+            });
+            context.Result = new JsonResult(result);
+            return;
+        }
 
-                await redisClient.SetAsync(cacheKey, JsonConvert.SerializeObject(ob.Value, new JsonSerializerSettings()
-                {
-                    ContractResolver = contractResolver
-                }), _expireSeconds);
-            }
-
+        ActionExecutedContext resultContext = await next();
+        if (resultContext.Result != null && resultContext.Exception == null && _redisClient != null)
+        {
+            var json = JsonConvert.SerializeObject((resultContext.Result as ObjectResult)?.Value, new JsonSerializerSettings
+            {
+                ContractResolver = new CamelCasePropertyNamesContractResolver()
+            });
+            await _redisClient.SetAsync(cacheKey, json, _expireSeconds);
         }
     }
 
-    private string GenerateCacheKey(string cacheKey, ActionExecutingContext context)
+    private static string GenerateCacheKey(string key, ActionExecutingContext context)
     {
-        string className = ((ControllerActionDescriptor)context.ActionDescriptor).ControllerTypeInfo.Name;
-        string methodName = ((ControllerActionDescriptor)context.ActionDescriptor).ActionName;
-        var methodArguments = context.ActionArguments;
-        string param = string.Empty;
-        if (methodArguments.Count > 0)
-        {
-            string serializeString = JsonConvert.SerializeObject(methodArguments, Formatting.Indented, new JsonSerializerSettings
-            {
-                DefaultValueHandling = DefaultValueHandling.Ignore
-            });
+        ControllerActionDescriptor? descriptor = context.ActionDescriptor as ControllerActionDescriptor;
+        MethodInfo method = descriptor?.MethodInfo ?? throw new ArgumentNullException("context");
+        string controllerName = descriptor.ControllerName;
+        string actionName = method.Name;
 
-            if (string.IsNullOrEmpty(serializeString))
-            {
-                param = EncryptUtil.Encrypt($"{className}:{methodName}");
-            }
-            else
-            {
-                param = ":" + EncryptUtil.Encrypt(serializeString);
-            }
+        string cacheKey = $"{controllerName}:{actionName}:{key}";
+        foreach (var argument in context.ActionArguments)
+        {
+            if (argument.Value == null) continue;
+
+            string value = argument.Value.ToString() ?? string.Empty;
+            cacheKey = $"{cacheKey}:{argument.Key}={value}";
         }
-        return string.Concat(cacheKey ?? $"{className}:{methodName}", param);
+
+        return cacheKey;
     }
 }

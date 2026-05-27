@@ -17,11 +17,21 @@ public class DataSeedContributor : IDataSeedContributor
 {
     private readonly IAuditBaseRepository<LinPermission> _permissionRepository;
     private readonly IAuditBaseRepository<LinGroupPermission> _groupPermissionRepository;
+    private readonly IAuditBaseRepository<LinUser> _userRepository;
+    private readonly IAuditBaseRepository<LinGroup> _groupRepository;
     private readonly ILogger<DataSeedContributor> _logger;
-    public DataSeedContributor(IAuditBaseRepository<LinPermission> permissionRepository, IAuditBaseRepository<LinGroupPermission> groupPermissionRepository, ILogger<DataSeedContributor> logger)
+
+    public DataSeedContributor(
+        IAuditBaseRepository<LinPermission> permissionRepository,
+        IAuditBaseRepository<LinGroupPermission> groupPermissionRepository,
+        IAuditBaseRepository<LinUser> userRepository,
+        IAuditBaseRepository<LinGroup> groupRepository,
+        ILogger<DataSeedContributor> logger)
     {
         _permissionRepository = permissionRepository;
         _groupPermissionRepository = groupPermissionRepository;
+        _userRepository = userRepository;
+        _groupRepository = groupRepository;
         _logger = logger;
     }
 
@@ -130,5 +140,43 @@ public class DataSeedContributor : IDataSeedContributor
 
         await _permissionRepository.UpdateAsync(updatePermissions, cancellationToken);
         _logger.LogInformation($"更新了{updatePermissions.Count}条数据");
+    }
+
+    public async Task InitAdminUser()
+    {
+        bool hasUser = await _userRepository.Select.AnyAsync();
+        if (hasUser) return;
+
+        _logger.LogInformation("开始初始化管理员账号...");
+
+        // 1. 确保角色存在
+        var adminGroup = await _groupRepository.Where(g => g.Name == "系统管理员").FirstAsync();
+        if (adminGroup == null)
+        {
+            adminGroup = new LinGroup("系统管理员", "系统管理员", true);
+            adminGroup = await _groupRepository.InsertAsync(adminGroup);
+        }
+
+        // 2. 创建管理员用户
+        LinUser admin = new LinUser()
+        {
+            Nickname = "系统管理员",
+            Username = "admin",
+            Active = LinCms.Data.Enums.UserStatus.Active,
+            CreateTime = DateTime.Now,
+            IsDeleted = false,
+            Salt = "9fd248c8-e9da-412f-bad9-aa5f7f1d7b80",
+            LinUserIdentitys = new List<LinUserIdentity>()
+            {
+                new LinUserIdentity(LinUserIdentity.Password, "admin", "IWxIlqMAE3SU3JTogdDAJw==", DateTime.Now) // 密码: 123qwe
+            },
+            LinUserGroups = new List<LinUserGroup>()
+            {
+                new LinUserGroup(1, adminGroup.Id)
+            }
+        };
+
+        await _userRepository.InsertAsync(admin);
+        _logger.LogInformation("管理员账号 (admin/123qwe) 初始化成功！");
     }
 }

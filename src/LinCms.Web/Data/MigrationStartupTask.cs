@@ -28,6 +28,7 @@ public class MigrationStartupTask
             var permissions = ReflexHelper.GetAssemblyLinCmsAttributes();
             await dataSeedContributor.SeedPermissionAsync(permissions, cancellationToken);
             await dataSeedContributor.InitAdminPermission();
+            await dataSeedContributor.InitAdminUser();
         }
         catch (Exception ex)
         {

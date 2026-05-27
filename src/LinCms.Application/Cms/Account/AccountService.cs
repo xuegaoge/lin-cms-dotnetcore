@@ -21,13 +21,15 @@ public class AccountService(IAuditBaseRepository<LinUser, long> userRepository,
         IUserIdentityService userIdentityService,
         IOptionsMonitor<SiteOption> siteOption,
         ICaptchaManager captchaManager,
-        IOptionsMonitor<CaptchaOption> loginCaptchaOption,
-        IRedisClient redisClient)
+        IOptionsMonitor<CaptchaOption> loginCaptchaOption)
     : ApplicationService, IAccountService
 {
     private readonly MailKitOptions _mailKitOptions = options.Value;
     private readonly SiteOption _siteOption = siteOption.CurrentValue;
     private readonly CaptchaOption _loginCaptchaOption = loginCaptchaOption.CurrentValue;
+
+    // 可选Redis客户端（通过属性注入）
+    public IRedisClient? RedisClient { get; set; }
 
     /// <summary>
     /// 生成无状态的登录验证码
@@ -52,7 +54,7 @@ public class AccountService(IAuditBaseRepository<LinUser, long> userRepository,
     {
         var captchaBo = captchaManager.DecodeTag(tag, _loginCaptchaOption.Salt);
         long t = captchaManager.GetTimeStamp();
-        return string.Compare(captchaBo.Captcha, captcha, StringComparison.OrdinalIgnoreCase) == 0 && t > captchaBo.Expired;
+        return string.Compare(captchaBo.Captcha, captcha, StringComparison.OrdinalIgnoreCase) == 0 && t <= captchaBo.Expired;
     }
 
 
@@ -77,7 +79,7 @@ public class AccountService(IAuditBaseRepository<LinUser, long> userRepository,
         message.Subject = $"vvlog-请点击这里激活您的账号";
 
         string uuid = Guid.NewGuid().ToString();
-        await redisClient.SetAsync("SendChangeEmail." + sendEmailCodeInput.Email, uuid, 30 * 60);
+        await RedisClient?.SetAsync("SendChangeEmail." + sendEmailCodeInput.Email, uuid, 30 * 60);
 
         message.Body = new TextPart("html")
         {
@@ -106,9 +108,9 @@ public class AccountService(IAuditBaseRepository<LinUser, long> userRepository,
         message.To.Add(new MailboxAddress(registerDto.Email, registerDto.Email));
         message.Subject = $"vvlog-你的验证码是";
 
-        string uuid = Guid.NewGuid().ToString(); 
+        string uuid = Guid.NewGuid().ToString();
         string key = string.Format(AccountContracts.SendEmailCode_EmailCode, registerDto.Email);
-        await redisClient.SetAsync(key, uuid, 30 * 60);
+        await RedisClient?.SetAsync(key, uuid, 30 * 60);
 
         int verificationCode = new Random().Next(100000, 999999);
 
@@ -116,10 +118,10 @@ public class AccountService(IAuditBaseRepository<LinUser, long> userRepository,
         {
             Text = $@"{registerDto.Email},您好!</br>你此次验证码如下，请在 30 分钟内输入验证码进行下一步操作。</br>如非你本人操作，请忽略此邮件。</br>{verificationCode}"
         };
-        
+
         string keyVerificationCode = string.Format(AccountContracts.SendEmailCode_VerificationCode, registerDto.Email);
         await emailSender.SendAsync(message);
-        await redisClient.SetAsync(keyVerificationCode, verificationCode, 30 * 60);
+        await RedisClient?.SetAsync(keyVerificationCode, verificationCode, 30 * 60);
         return uuid;
     }
 
@@ -150,7 +152,7 @@ public class AccountService(IAuditBaseRepository<LinUser, long> userRepository,
 
         await emailSender.SendAsync(message);
         string key = string.Format(AccountContracts.SendPasswordResetCode_VerificationCode, user.Email);
-        await redisClient.SetAsync(key, verificationCode, 30 * 60);
+        await RedisClient?.SetAsync(key, verificationCode, 30 * 60);
 
         return user.PasswordResetCode;
     }
@@ -169,10 +171,10 @@ public class AccountService(IAuditBaseRepository<LinUser, long> userRepository,
     private async Task IncreateVerificationCodeCount(string email)
     {
         string keyCount = string.Format(AccountContracts.SendPasswordResetCode_VerificationCode_Count, email);
-        string count = await redisClient.GetAsync(keyCount);
+        string count = await RedisClient?.GetAsync(keyCount);
         if(count.IsNullOrWhiteSpace())
         {
-            await redisClient.SetAsync(keyCount, 1, 30 * 60);
+            await RedisClient?.SetAsync(keyCount, 1, 30 * 60);
         }
         else
         {
@@ -181,15 +183,15 @@ public class AccountService(IAuditBaseRepository<LinUser, long> userRepository,
             {
                 throw new LinCmsException("验证码已过期");
             }
-            await redisClient.IncrByAsync(keyCount, 1);
+            await RedisClient?.IncrByAsync(keyCount, 1);
         }
     }
 
     public async Task ResetPasswordAsync(ResetEmailPasswordDto resetPassword)
     {
         string key = string.Format(AccountContracts.SendPasswordResetCode_VerificationCode, resetPassword.Email);
-        string resetCode = await redisClient.GetAsync(key);
-        
+        string resetCode = await RedisClient?.GetAsync(key);
+
         if (resetCode.IsNullOrWhiteSpace())
         {
             await IncreateVerificationCodeCount(resetPassword.Email);

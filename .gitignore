@@ -362,3 +362,8 @@ docs/api/.manifest
 /src/LinCms.Web/appsettings.Production.json
 /src/LinCms.Web/prod.bash
 /src/LinCms.Web/appsettings.Local_Production.json
+/build_errors.txt
+/full_build_output.txt
+/restore_error.txt
+/restore_error_2.txt
+/src/LinCms.Web/lincms.db

@@ -7,7 +7,7 @@ namespace LinCms.Entities
     /// 用户分组中间表
     /// </summary>
     [Table(Name = "lin_user_group")]
-    public class LinUserGroup : Entity<long>
+    public class LinUserGroup : FullAuditEntity<long, long>
     {
         public LinUserGroup()
         {
@@ -18,8 +18,10 @@ namespace LinCms.Entities
             GroupId = groupId;
         }
 
+        [Column(IsPrimary = true)]
         public long UserId { get; set; }
 
+        [Column(IsPrimary = true)]
         public long GroupId { get; set; }
 
         [Navigate("UserId")]

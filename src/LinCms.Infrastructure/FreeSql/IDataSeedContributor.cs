@@ -12,5 +12,5 @@ public interface IDataSeedContributor: ISingletonDependency
     Task InitAdminPermission();
 
     Task SeedPermissionAsync(List<PermissionDefinition> linCmsAttributes, CancellationToken cancellationToken);
-
+    Task InitAdminUser();
 }
